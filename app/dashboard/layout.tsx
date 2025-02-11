@@ -13,7 +13,7 @@ export default function DashboardLayout({
       <AppSidebar />
       <div>
         <SidebarTrigger />
-        {children}
+        <div className="p-5">{children}</div>
       </div>
     </SidebarProvider>
   );
