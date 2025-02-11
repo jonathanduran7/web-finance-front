@@ -9,16 +9,19 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface SidebarItem {
   title: string;
   url: string;
+  isActive?: boolean;
 }
 
-const items: SidebarItem[] = [
+const initialItems: SidebarItem[] = [
   {
     title: "Dashboard",
     url: "/dashboard/home",
+    isActive: true,
   },
   {
     title: "Transacciones",
@@ -36,6 +39,17 @@ const items: SidebarItem[] = [
 
 export function AppSidebar() {
   const { push } = useRouter();
+  const [items, setItems] = useState<SidebarItem[]>(initialItems);
+
+  const handleItemClick = (url: string) => {
+    setItems(
+      items.map((item) => ({
+        ...item,
+        isActive: item.url === url,
+      })),
+    );
+    push(url);
+  };
 
   return (
     <Sidebar>
@@ -46,9 +60,9 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={item.isActive}>
                     <div
-                      onClick={() => push(item.url)}
+                      onClick={() => handleItemClick(item.url)}
                       className="cursor-pointer"
                     >
                       <span>{item.title}</span>
