@@ -52,14 +52,14 @@ export default {
           "5": "hsl(var(--chart-5))",
         },
         sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
+          DEFAULT: "#1E3A5F", // Fondo principal del sidebar (Azul oscuro)
+          foreground: "#F8FAFC", // Texto claro para buen contraste
+          primary: "#1E3A5F", // Color principal del sidebar
+          "primary-foreground": "#F8FAFC", // Texto sobre el color primario
+          accent: "#3B82F6", // Azul brillante como color de acento
+          "accent-foreground": "#FFFFFF", // Texto sobre el color acento
+          border: "#334155", // Borde en azul grisáceo para suavizar
+          ring: "#0b2241", // Efecto de "focus" en inputs, un azul más claro
         },
       },
       borderRadius: {
