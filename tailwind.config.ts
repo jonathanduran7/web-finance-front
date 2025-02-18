@@ -52,20 +52,42 @@ export default {
           "5": "hsl(var(--chart-5))",
         },
         sidebar: {
-          DEFAULT: "#1E3A5F", // Fondo principal del sidebar (Azul oscuro)
-          foreground: "#F8FAFC", // Texto claro para buen contraste
-          primary: "#1E3A5F", // Color principal del sidebar
-          "primary-foreground": "#F8FAFC", // Texto sobre el color primario
-          accent: "#3B82F6", // Azul brillante como color de acento
-          "accent-foreground": "#FFFFFF", // Texto sobre el color acento
-          border: "#334155", // Borde en azul grisáceo para suavizar
-          ring: "#0b2241", // Efecto de "focus" en inputs, un azul más claro
+          DEFAULT: "#1E3A5F",
+          foreground: "#F8FAFC",
+          primary: "#1E3A5F",
+          "primary-foreground": "#F8FAFC",
+          accent: "#3B82F6",
+          "accent-foreground": "#FFFFFF",
+          border: "#334155",
+          ring: "#0b2241",
         },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: {
+            height: "0",
+          },
+          to: {
+            height: "var(--radix-accordion-content-height)",
+          },
+        },
+        "accordion-up": {
+          from: {
+            height: "var(--radix-accordion-content-height)",
+          },
+          to: {
+            height: "0",
+          },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
