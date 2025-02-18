@@ -2,6 +2,7 @@
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 
 export default function DashboardLayout({
   children,
@@ -9,12 +10,14 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <div className="w-full h-screen">
-        <SidebarTrigger />
-        <div className="p-5 h-full">{children}</div>
-      </div>
-    </SidebarProvider>
+    <ReactQueryProvider>
+      <SidebarProvider>
+        <AppSidebar />
+        <div className="w-full h-screen">
+          <SidebarTrigger />
+          <div className="p-5 h-full">{children}</div>
+        </div>
+      </SidebarProvider>
+    </ReactQueryProvider>
   );
 }
