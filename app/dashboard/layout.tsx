@@ -11,9 +11,9 @@ export default function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <div>
+      <div className="w-full h-screen">
         <SidebarTrigger />
-        <div className="p-5">{children}</div>
+        <div className="p-5 h-full">{children}</div>
       </div>
     </SidebarProvider>
   );
