@@ -1,6 +1,8 @@
 "use client";
 
+import { createCurrency } from "@/app/services/api/currency.api";
 import Modal from "@/components/ui/modal";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 interface CurrencyModalProps {
@@ -12,9 +14,18 @@ export default function CurrencyModal({
   isModalOpen,
   setIsModalOpen,
 }: CurrencyModalProps) {
+  const queryClient = useQueryClient();
   const [currency, setCurrency] = useState("");
 
+  const { mutate } = useMutation({
+    mutationFn: (currencyName: string) => createCurrency(currencyName),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["currencies"] });
+    },
+  });
+
   const handleSave = () => {
+    mutate(currency);
     setCurrency("");
     setIsModalOpen(false);
   };
