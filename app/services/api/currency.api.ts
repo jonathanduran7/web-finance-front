@@ -16,3 +16,16 @@ export async function removeCurrency(id: string): Promise<void> {
     throw new Error("Error deleting currency");
   }
 }
+
+export async function createCurrency(currencyName: string) {
+  const response = await fetch("http://localhost:3333/currency", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: currencyName }),
+  });
+  if (!response.ok) {
+    throw new Error("Error creating currency");
+  }
+}
