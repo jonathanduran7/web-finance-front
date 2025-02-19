@@ -7,3 +7,12 @@ export async function getCurrencies(): Promise<Currency[]> {
   }
   return response.json() as Promise<Currency[]>;
 }
+
+export async function removeCurrency(id: string): Promise<void> {
+  const response = await fetch(`http://localhost:3333/currency/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Error deleting currency");
+  }
+}
