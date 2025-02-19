@@ -16,3 +16,24 @@ export async function removeAccount(id: string): Promise<void> {
     throw new Error("Error deleting currency");
   }
 }
+
+export async function createAccount({
+  name,
+  currencyId,
+  initialBalance,
+}: {
+  name: string;
+  currencyId: number;
+  initialBalance?: number;
+}) {
+  const response = await fetch("http://localhost:3333/account", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, currencyId, initialBalance }),
+  });
+  if (!response.ok) {
+    throw new Error("Error creating currency");
+  }
+}
