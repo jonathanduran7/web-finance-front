@@ -7,3 +7,12 @@ export async function getAccount(): Promise<Account[]> {
   }
   return response.json() as Promise<Account[]>;
 }
+
+export async function removeAccount(id: string): Promise<void> {
+  const response = await fetch(`http://localhost:3333/account/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Error deleting currency");
+  }
+}
