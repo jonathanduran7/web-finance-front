@@ -20,7 +20,12 @@ export default function AccountAccordion() {
   });
   const [modal, setModal] = useState<{
     type: "create" | "edit" | "none";
-    values?: { id: string; account: string; currencyId: string };
+    values?: {
+      id: string;
+      account: string;
+      currencyId: string;
+      initialBalance: number;
+    };
   }>({ type: "none" });
 
   if (isLoading) {
@@ -48,7 +53,20 @@ export default function AccountAccordion() {
             <div className="w-2/5">{account.name}</div>
             <div className="w-2/5">{account.currency?.name ?? "-"}</div>
             <div className="w-1/5">
-              <button className="text-blue-500 mr-3">
+              <button
+                onClick={() =>
+                  setModal({
+                    type: "edit",
+                    values: {
+                      id: String(account.id),
+                      account: account.name,
+                      currencyId: String(account.currency.id),
+                      initialBalance: account.initialBalance,
+                    },
+                  })
+                }
+                className="text-blue-500 mr-3"
+              >
                 <Edit />
               </button>
               <button
@@ -73,6 +91,12 @@ export default function AccountAccordion() {
       <ModalFactory
         onClose={() => setModal({ type: "none" })}
         type={modal.type}
+        values={{
+          id: modal.values?.id ?? "",
+          name: modal.values?.account ?? "",
+          currencyId: Number(modal.values?.currencyId),
+          initialBalance: modal.values?.initialBalance ?? 0,
+        }}
       />
     </div>
   );
