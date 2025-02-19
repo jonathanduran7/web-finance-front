@@ -1,13 +1,22 @@
 "use client";
 import { Currency } from "@/app/models/Currency";
-import { getCurrencies } from "@/app/services/api/currency.api";
-import { useQuery } from "@tanstack/react-query";
+import { getCurrencies, removeCurrency } from "@/app/services/api/currency.api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash } from "lucide-react";
 
 export default function CurrencyAccordion() {
+  const queryClient = useQueryClient();
+
   const { data, isLoading, error } = useQuery<Currency[]>({
     queryKey: ["currencies"],
     queryFn: getCurrencies,
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: (id: string) => removeCurrency(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["currencies"] });
+    },
   });
 
   if (isLoading) {
@@ -35,7 +44,10 @@ export default function CurrencyAccordion() {
               <button className="text-blue-500 mr-3">
                 <Edit />
               </button>
-              <button className="text-red-500">
+              <button
+                className="text-red-500"
+                onClick={() => mutate(String(currency.id))}
+              >
                 <Trash />
               </button>
             </div>
