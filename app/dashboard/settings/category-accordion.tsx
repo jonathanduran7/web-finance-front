@@ -2,8 +2,14 @@ import { Category } from "@/app/models/Category";
 import { getCategories } from "@/app/services/api/category.api";
 import { useQuery } from "@tanstack/react-query";
 import { Edit, Trash } from "lucide-react";
+import { useState } from "react";
+import ModalFactory from "./category/modal-category-factory";
 
 export default function CategoryAccordion() {
+  const [modal, setModal] = useState<{
+    type: "create" | "edit" | "none";
+    values?: { id: string; currency: string };
+  }>({ type: "none" });
   const { data, isLoading, isError } = useQuery<Category[]>({
     queryKey: ["categories"],
     queryFn: getCategories,
@@ -43,10 +49,18 @@ export default function CategoryAccordion() {
         ))}
       </div>
       <div className="mt-4 flex justify-end">
-        <button className="bg-primary text-white p-2 rounded-lg">
+        <button
+          onClick={() => setModal({ type: "create" })}
+          className="bg-primary text-white p-2 rounded-lg"
+        >
           Agregar Categoria
         </button>
       </div>
+      <ModalFactory
+        type={modal.type}
+        values={modal.values}
+        onClose={() => setModal({ type: "none" })}
+      />
     </div>
   );
 }
