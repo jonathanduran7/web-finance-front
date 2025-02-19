@@ -2,6 +2,8 @@ import { Account } from "@/app/models/Accounts";
 import { getAccount, removeAccount } from "@/app/services/api/account.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash } from "lucide-react";
+import ModalFactory from "./account/modal-account-factory";
+import { useState } from "react";
 
 export default function AccountAccordion() {
   const queryClient = useQueryClient();
@@ -16,6 +18,10 @@ export default function AccountAccordion() {
       queryClient.invalidateQueries({ queryKey: ["accounts"] });
     },
   });
+  const [modal, setModal] = useState<{
+    type: "create" | "edit" | "none";
+    values?: { id: string; account: string; currencyId: string };
+  }>({ type: "none" });
 
   if (isLoading) {
     return <p>Cargando...</p>;
@@ -56,10 +62,18 @@ export default function AccountAccordion() {
         ))}
       </div>
       <div className="mt-4 flex justify-end">
-        <button className="bg-primary text-white p-2 rounded-lg">
+        <button
+          onClick={() => setModal({ type: "create" })}
+          className="bg-primary text-white p-2 rounded-lg"
+        >
           Agregar Cuenta
         </button>
       </div>
+
+      <ModalFactory
+        onClose={() => setModal({ type: "none" })}
+        type={modal.type}
+      />
     </div>
   );
 }
