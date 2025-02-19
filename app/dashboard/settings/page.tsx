@@ -1,6 +1,7 @@
 "use client";
 import Accordion from "@/components/ui/accordion";
 import CurrencyAccordion from "./currency-accordion";
+import CategoryAccordion from "./category-accordion";
 
 export default function Page() {
   return (
@@ -11,7 +12,7 @@ export default function Page() {
           <p>Cuenta</p>
         </Accordion>
         <Accordion title="Categorias">
-          <p>Categorias</p>
+          <CategoryAccordion />
         </Accordion>
         <Accordion title="Monedas">
           <CurrencyAccordion />
