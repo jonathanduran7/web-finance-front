@@ -1,12 +1,20 @@
 import { Account } from "@/app/models/Accounts";
-import { getAccount } from "@/app/services/api/account.api";
-import { useQuery } from "@tanstack/react-query";
+import { getAccount, removeAccount } from "@/app/services/api/account.api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash } from "lucide-react";
 
 export default function AccountAccordion() {
+  const queryClient = useQueryClient();
   const { data, isLoading, isError } = useQuery<Account[]>({
     queryKey: ["accounts"],
     queryFn: getAccount,
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: removeAccount,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["accounts"] });
+    },
   });
 
   if (isLoading) {
@@ -37,7 +45,10 @@ export default function AccountAccordion() {
               <button className="text-blue-500 mr-3">
                 <Edit />
               </button>
-              <button className="text-red-500">
+              <button
+                onClick={() => mutate(String(account.id))}
+                className="text-red-500"
+              >
                 <Trash />
               </button>
             </div>
