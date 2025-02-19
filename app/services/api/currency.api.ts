@@ -29,3 +29,22 @@ export async function createCurrency(currencyName: string) {
     throw new Error("Error creating currency");
   }
 }
+
+export async function updateCurrency({
+  currencyName,
+  currencyId,
+}: {
+  currencyName: string;
+  currencyId: string;
+}) {
+  const response = await fetch(`http://localhost:3333/currency/${currencyId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: currencyName }),
+  });
+  if (!response.ok) {
+    throw new Error("Error updating currency");
+  }
+}
