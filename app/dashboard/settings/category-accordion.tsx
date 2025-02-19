@@ -1,11 +1,12 @@
 import { Category } from "@/app/models/Category";
-import { getCategories } from "@/app/services/api/category.api";
-import { useQuery } from "@tanstack/react-query";
+import { getCategories, removeCategory } from "@/app/services/api/category.api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash } from "lucide-react";
 import { useState } from "react";
 import ModalFactory from "./category/modal-category-factory";
 
 export default function CategoryAccordion() {
+  const query = useQueryClient();
   const [modal, setModal] = useState<{
     type: "create" | "edit" | "none";
     values?: { id: string; currency: string };
@@ -13,6 +14,12 @@ export default function CategoryAccordion() {
   const { data, isLoading, isError } = useQuery<Category[]>({
     queryKey: ["categories"],
     queryFn: getCategories,
+  });
+  const { mutate } = useMutation({
+    mutationFn: removeCategory,
+    onSuccess: () => {
+      query.invalidateQueries({ queryKey: ["categories"] });
+    },
   });
 
   if (isLoading) {
@@ -41,7 +48,10 @@ export default function CategoryAccordion() {
               <button className="text-blue-500 mr-3">
                 <Edit />
               </button>
-              <button className="text-red-500">
+              <button
+                className="text-red-500"
+                onClick={() => mutate(category.id)}
+              >
                 <Trash />
               </button>
             </div>
