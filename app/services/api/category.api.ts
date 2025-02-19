@@ -20,3 +20,12 @@ export async function createCategory(categoryName: string) {
     throw new Error("Error creating category");
   }
 }
+
+export async function removeCategory(id: string): Promise<void> {
+  const response = await fetch(`http://localhost:3333/category/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Error deleting category");
+  }
+}
