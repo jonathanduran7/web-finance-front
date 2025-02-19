@@ -5,11 +5,14 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash } from "lucide-react";
 import { useState } from "react";
 import CurrencyModal from "./create-currency-modal";
+import CurrencyUpdateModal from "./edit-currency-modal";
 
 export default function CurrencyAccordion() {
   const queryClient = useQueryClient();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+  const [values, setValues] = useState({ id: "", currency: "" });
   const { data, isLoading, error } = useQuery<Currency[]>({
     queryKey: ["currencies"],
     queryFn: getCurrencies,
@@ -30,6 +33,10 @@ export default function CurrencyAccordion() {
     return <p>Error cargando las monedas</p>;
   }
 
+  const handleEdit = () => {
+    setIsModalEditOpen(true);
+  };
+
   return (
     <div>
       <div className="flex p-2">
@@ -44,7 +51,16 @@ export default function CurrencyAccordion() {
           >
             <div className="w-4/5">{currency.name}</div>
             <div className="flex-1">
-              <button className="text-blue-500 mr-3">
+              <button
+                onClick={() => {
+                  setValues({
+                    id: String(currency.id),
+                    currency: currency.name,
+                  });
+                  handleEdit();
+                }}
+                className="text-blue-500 mr-3"
+              >
                 <Edit />
               </button>
               <button
@@ -69,6 +85,12 @@ export default function CurrencyAccordion() {
       <CurrencyModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
+      />
+
+      <CurrencyUpdateModal
+        values={values}
+        isModalOpen={isModalEditOpen}
+        setIsModalOpen={setIsModalEditOpen}
       />
     </div>
   );
