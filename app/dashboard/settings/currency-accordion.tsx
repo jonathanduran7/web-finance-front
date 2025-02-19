@@ -3,10 +3,13 @@ import { Currency } from "@/app/models/Currency";
 import { getCurrencies, removeCurrency } from "@/app/services/api/currency.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash } from "lucide-react";
+import { useState } from "react";
+import CurrencyModal from "./create-currency-modal";
 
 export default function CurrencyAccordion() {
   const queryClient = useQueryClient();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { data, isLoading, error } = useQuery<Currency[]>({
     queryKey: ["currencies"],
     queryFn: getCurrencies,
@@ -55,10 +58,18 @@ export default function CurrencyAccordion() {
         ))}
       </div>
       <div className="mt-4 flex justify-end">
-        <button className="bg-primary text-white p-2 rounded-lg">
+        <button
+          className="bg-primary text-white p-2 rounded-lg"
+          onClick={() => setIsModalOpen(!isModalOpen)}
+        >
           Agregar moneda
         </button>
       </div>
+
+      <CurrencyModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </div>
   );
 }
