@@ -54,6 +54,11 @@ export default function CurrencyAccordion() {
           </div>
         ))}
       </div>
+      <div className="mt-4 flex justify-end">
+        <button className="bg-primary text-white p-2 rounded-lg">
+          Agregar moneda
+        </button>
+      </div>
     </div>
   );
 }
