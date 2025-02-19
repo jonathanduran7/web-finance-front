@@ -4,15 +4,14 @@ import { getCurrencies, removeCurrency } from "@/app/services/api/currency.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash } from "lucide-react";
 import { useState } from "react";
-import CurrencyModal from "./create-currency-modal";
-import CurrencyUpdateModal from "./edit-currency-modal";
+import ModalFactory from "./currency/modal-currency-factory";
 
 export default function CurrencyAccordion() {
   const queryClient = useQueryClient();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-  const [values, setValues] = useState({ id: "", currency: "" });
+  const [modal, setModal] = useState<{
+    type: "create" | "edit" | "none";
+    values?: { id: string; currency: string };
+  }>({ type: "none" });
   const { data, isLoading, error } = useQuery<Currency[]>({
     queryKey: ["currencies"],
     queryFn: getCurrencies,
@@ -33,8 +32,8 @@ export default function CurrencyAccordion() {
     return <p>Error cargando las monedas</p>;
   }
 
-  const handleEdit = () => {
-    setIsModalEditOpen(true);
+  const handleEdit = (id: string, currency: string) => {
+    setModal({ type: "edit", values: { id, currency } });
   };
 
   return (
@@ -53,11 +52,7 @@ export default function CurrencyAccordion() {
             <div className="flex-1">
               <button
                 onClick={() => {
-                  setValues({
-                    id: String(currency.id),
-                    currency: currency.name,
-                  });
-                  handleEdit();
+                  handleEdit(String(currency.id), currency.name);
                 }}
                 className="text-blue-500 mr-3"
               >
@@ -76,21 +71,16 @@ export default function CurrencyAccordion() {
       <div className="mt-4 flex justify-end">
         <button
           className="bg-primary text-white p-2 rounded-lg"
-          onClick={() => setIsModalOpen(!isModalOpen)}
+          onClick={() => setModal({ type: "create" })}
         >
           Agregar moneda
         </button>
       </div>
 
-      <CurrencyModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-      />
-
-      <CurrencyUpdateModal
-        values={values}
-        isModalOpen={isModalEditOpen}
-        setIsModalOpen={setIsModalEditOpen}
+      <ModalFactory
+        type={modal.type}
+        values={modal.values}
+        onClose={() => setModal({ type: "none" })}
       />
     </div>
   );
