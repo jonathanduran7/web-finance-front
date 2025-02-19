@@ -9,7 +9,7 @@ export default function CategoryAccordion() {
   const query = useQueryClient();
   const [modal, setModal] = useState<{
     type: "create" | "edit" | "none";
-    values?: { id: string; currency: string };
+    values?: { id: string; category: string };
   }>({ type: "none" });
   const { data, isLoading, isError } = useQuery<Category[]>({
     queryKey: ["categories"],
@@ -45,7 +45,15 @@ export default function CategoryAccordion() {
           >
             <div className="w-4/5">{category.name}</div>
             <div className="flex-1">
-              <button className="text-blue-500 mr-3">
+              <button
+                onClick={() =>
+                  setModal({
+                    type: "edit",
+                    values: { id: category.id, category: category.name },
+                  })
+                }
+                className="text-blue-500 mr-3"
+              >
                 <Edit />
               </button>
               <button
