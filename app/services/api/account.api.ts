@@ -37,3 +37,26 @@ export async function createAccount({
     throw new Error("Error creating currency");
   }
 }
+
+export async function updateAccount({
+  name,
+  currencyId,
+  initialBalance,
+  accountId,
+}: {
+  name: string;
+  currencyId: number;
+  initialBalance: number;
+  accountId: string;
+}) {
+  const response = await fetch(`http://localhost:3333/account/${accountId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, currencyId, initialBalance }),
+  });
+  if (!response.ok) {
+    throw new Error("Error updating currency");
+  }
+}
