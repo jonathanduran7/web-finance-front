@@ -1,49 +1,49 @@
+"use client";
+import { useQuery } from "@tanstack/react-query";
+import { PaginatedResponse } from "@/app/interfaces/Response";
+import { Transaction } from "@/app/models/Transaction";
+import { getTransactionsPaginated } from "@/app/services/api/transactions.api";
 import Table, { IColumn } from "@/components/ui/table/table";
+import dayjs from "dayjs";
 
 const columns: IColumn[] = [
-  { name: "fecha", label: "Fecha" },
-  { name: "descripcion", label: "Descripción" },
-  { name: "categoria", label: "Categoría" },
-  { name: "cuenta", label: "Cuenta" },
-  { name: "importe", label: "Importe" },
-];
-
-const data = [
   {
-    fecha: "2021-01-01",
-    descripcion: "Pago de luz",
-    categoria: "Servicios",
-    cuenta: "Cuenta de ahorro",
-    importe: 100,
+    name: "createdAt",
+    label: "Fecha",
+    value: (row: Transaction) => dayjs(row.createdAt).format("DD/MM/YYYY"),
   },
-  {
-    fecha: "2021-01-02",
-    descripcion: "Pago de agua",
-    categoria: "Servicios",
-    cuenta: "Cuenta de ahorro",
-    importe: 50,
-  },
-  {
-    fecha: "2021-01-03",
-    descripcion: "Pago de internet",
-    categoria: "Servicios",
-    cuenta: "Cuenta de ahorro",
-    importe: 80,
-  },
-  {
-    fecha: "2021-01-04",
-    descripcion: "Pago de gas",
-    categoria: "Servicios",
-    cuenta: "Cuenta de ahorro",
-    importe: 70,
-  },
+  { name: "title", label: "Titulo" },
+  { name: "amount", label: "Importe" },
+  { name: "account.name", label: "Cuenta" },
+  { name: "category.name", label: "Categoria" },
 ];
 
 export default function Page() {
+  const {
+    data: response,
+    isLoading,
+    isError,
+  } = useQuery<PaginatedResponse<Transaction>>({
+    queryKey: ["transactions"],
+    queryFn: () => getTransactionsPaginated({ page: 1, limit: 10 }),
+  });
+
+  if (isLoading) {
+    return <p>Cargando...</p>;
+  }
+
+  if (isError) {
+    return <p>Error cargando las transacciones</p>;
+  }
+
+  if (!response) {
+    return <p>No hay datos</p>;
+  }
+
   return (
     <div>
       <p>Transaction</p>
-      <Table columns={columns} data={data} />
+      <Table columns={columns} data={response.data} />
     </div>
   );
 }
