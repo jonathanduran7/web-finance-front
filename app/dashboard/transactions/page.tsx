@@ -6,6 +6,7 @@ import { getTransactionsPaginated } from "@/app/services/api/transactions.api";
 import Table, { IColumn } from "@/components/ui/table/table";
 import dayjs from "dayjs";
 import { formatCurrency } from "@/lib/format";
+import HeaderTableTransaction from "./header-table-transactions";
 
 const columns: IColumn[] = [
   {
@@ -48,7 +49,10 @@ export default function Page() {
   return (
     <div>
       <p>Transaction</p>
-      <Table columns={columns} data={response.data} />
+      <div className="w-[70%] mt-5">
+        <HeaderTableTransaction />
+        <Table columns={columns} data={response.data} />
+      </div>
     </div>
   );
 }
