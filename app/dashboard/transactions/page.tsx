@@ -5,17 +5,22 @@ import { Transaction } from "@/app/models/Transaction";
 import { getTransactionsPaginated } from "@/app/services/api/transactions.api";
 import Table, { IColumn } from "@/components/ui/table/table";
 import dayjs from "dayjs";
+import { formatCurrency } from "@/lib/format";
 
 const columns: IColumn[] = [
   {
     name: "createdAt",
     label: "Fecha",
-    value: (row: Transaction) => dayjs(row.createdAt).format("DD/MM/YYYY"),
+    value: (row: Transaction) => dayjs(row.createdAt).format("DD/MM"),
   },
   { name: "title", label: "Titulo" },
-  { name: "amount", label: "Importe" },
-  { name: "account.name", label: "Cuenta" },
   { name: "category.name", label: "Categoria" },
+  { name: "account.name", label: "Cuenta" },
+  {
+    name: "amount",
+    label: "Importe",
+    value: (row: Transaction) => formatCurrency(row.amount),
+  },
 ];
 
 export default function Page() {
