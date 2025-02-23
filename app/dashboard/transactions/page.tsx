@@ -6,7 +6,7 @@ import { getTransactionsPaginated } from "@/app/services/api/transactions.api";
 import Table, { IColumn } from "@/components/ui/table/table";
 import dayjs from "dayjs";
 import { formatCurrency } from "@/lib/format";
-import HeaderTableTransaction from "./header-table-transactions";
+import { useState } from "react";
 
 const columns: IColumn[] = [
   {
@@ -25,13 +25,17 @@ const columns: IColumn[] = [
 ];
 
 export default function Page() {
+  const [search, setSearch] = useState("");
+  const [querySearch, setQuerySearch] = useState("");
+
   const {
     data: response,
     isLoading,
     isError,
   } = useQuery<PaginatedResponse<Transaction>>({
-    queryKey: ["transactions"],
-    queryFn: () => getTransactionsPaginated({ page: 1, limit: 10 }),
+    queryKey: ["transactions", querySearch],
+    queryFn: () =>
+      getTransactionsPaginated({ page: 1, limit: 10, search: querySearch }),
   });
 
   if (isLoading) {
@@ -46,11 +50,33 @@ export default function Page() {
     return <p>No hay datos</p>;
   }
 
+  const handleSearch = () => {
+    setQuerySearch(search);
+  };
+
   return (
     <div>
       <p>Transaction</p>
       <div className="w-[70%] mt-5">
-        <HeaderTableTransaction />
+        <div className="w-full">
+          <input
+            type="text"
+            placeholder="Buscar"
+            className="w-[300px] p-2 border border-gray-300 rounded-md outline-none"
+            value={search}
+            name="search"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button
+            className="bg-primary text-white p-2 rounded-md ml-2"
+            onClick={() => handleSearch()}
+          >
+            Buscar
+          </button>
+          <button className="bg-primary text-white p-2 rounded-md ml-2">
+            Crear
+          </button>
+        </div>
         <Table columns={columns} data={response.data} />
       </div>
     </div>
