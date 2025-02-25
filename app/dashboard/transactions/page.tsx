@@ -7,6 +7,7 @@ import Table, { IColumn } from "@/components/ui/table/table";
 import dayjs from "dayjs";
 import { formatCurrency } from "@/lib/format";
 import { useState } from "react";
+import ModalFactory from "./modal-transactions-factory";
 
 const columns: IColumn[] = [
   {
@@ -37,6 +38,16 @@ export default function Page() {
     queryFn: () =>
       getTransactionsPaginated({ page: 1, limit: 10, search: querySearch }),
   });
+
+  const [modal, setModal] = useState<{
+    type: "create" | "edit" | "none";
+    values?: {
+      id: string;
+      account: string;
+      currencyId: string;
+      initialBalance: number;
+    };
+  }>({ type: "none" });
 
   if (isLoading) {
     return <p>Cargando...</p>;
@@ -73,12 +84,19 @@ export default function Page() {
           >
             Buscar
           </button>
-          <button className="bg-primary text-white p-2 rounded-md ml-2">
+          <button
+            onClick={() => setModal({ type: "create" })}
+            className="bg-primary text-white p-2 rounded-md ml-2"
+          >
             Crear
           </button>
         </div>
         <Table columns={columns} data={response.data} />
       </div>
+      <ModalFactory
+        type={modal.type}
+        onClose={() => setModal({ type: "none" })}
+      />
     </div>
   );
 }
