@@ -1,7 +1,10 @@
+import { JSX } from "react";
+
 export interface TableProps {
   columns: IColumn[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
+  actions?: IAction[];
 }
 
 export interface IColumn {
@@ -11,7 +14,13 @@ export interface IColumn {
   value?: (row: any) => string | number;
 }
 
-export default function Table({ columns, data }: TableProps) {
+export interface IAction {
+  label: string;
+  onClick: (id: string) => void;
+  icons: () => JSX.Element;
+}
+
+export default function Table({ columns, data, actions }: TableProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getNestedValue = (obj: any, path: string) => {
     return path.split(".").reduce((acc, key) => acc?.[key], obj);
@@ -27,6 +36,7 @@ export default function Table({ columns, data }: TableProps) {
                 {column.label}
               </th>
             ))}
+            {actions && <th className="p-2">Acciones</th>}
           </tr>
         </thead>
         <tbody>
@@ -42,6 +52,18 @@ export default function Table({ columns, data }: TableProps) {
                     : getNestedValue(row, column.name)}
                 </td>
               ))}
+              {actions && (
+                <td className="p-2 flex gap-3">
+                  {actions.map((action) => (
+                    <button
+                      key={action.label}
+                      onClick={() => action.onClick("a")}
+                    >
+                      {action.icons()}
+                    </button>
+                  ))}
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
