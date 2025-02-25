@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { formatCurrency } from "@/lib/format";
 import { useState } from "react";
 import ModalFactory from "./modal-transactions-factory";
+import { Edit, Trash } from "lucide-react";
 
 const columns: IColumn[] = [
   {
@@ -22,6 +23,23 @@ const columns: IColumn[] = [
     name: "amount",
     label: "Importe",
     value: (row: Transaction) => formatCurrency(row.amount),
+  },
+];
+
+const actions = [
+  {
+    label: "Editar",
+    onClick: (id: string) => {
+      console.log("Editar", id);
+    },
+    icons: () => <Edit className="text-blue-500" />,
+  },
+  {
+    label: "Eliminar",
+    onClick: (id: string) => {
+      console.log("Eliminar", id);
+    },
+    icons: () => <Trash className="text-red-500" />,
   },
 ];
 
@@ -91,7 +109,7 @@ export default function Page() {
             Crear
           </button>
         </div>
-        <Table columns={columns} data={response.data} />
+        <Table columns={columns} data={response.data} actions={actions} />
       </div>
       <ModalFactory
         type={modal.type}
