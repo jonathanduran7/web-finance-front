@@ -71,3 +71,32 @@ export async function deleteTransaction(id: string) {
     throw new Error("Error deleting transaction");
   }
 }
+
+export async function updateTransaction(transaction: {
+  id: number;
+  title: string;
+  amount: number;
+  description?: string;
+  accountId: number;
+  categoryId: number;
+}) {
+  const response = await fetch(
+    `http://localhost:3333/transaction/${transaction.id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: transaction.title,
+        amount: Number(transaction.amount),
+        description: transaction.description,
+        accountId: Number(transaction.accountId),
+        categoryId: Number(transaction.categoryId),
+      }),
+    },
+  );
+  if (!response.ok) {
+    throw new Error("Error updating transaction");
+  }
+}

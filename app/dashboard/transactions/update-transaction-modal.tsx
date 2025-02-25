@@ -3,9 +3,10 @@ import { Category } from "@/app/models/Category";
 import { Transaction } from "@/app/models/Transaction";
 import { getAccount } from "@/app/services/api/account.api";
 import { getCategories } from "@/app/services/api/category.api";
+import { updateTransaction } from "@/app/services/api/transactions.api";
 import Modal from "@/components/ui/modal";
 import { getFormattedDate } from "@/lib/format";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 interface Props {
@@ -28,6 +29,7 @@ export default function UpdateTransactionModal({
   setIsModalOpen,
   values,
 }: Props) {
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -44,7 +46,14 @@ export default function UpdateTransactionModal({
   });
 
   const onSubmit = (data: Inputs) => {
-    console.log(data);
+    mutate({
+      id: values.id,
+      title: data.title,
+      amount: data.amount,
+      description: data.description,
+      accountId: data.accountId,
+      categoryId: data.categoryId,
+    });
     setIsModalOpen(false);
   };
 
@@ -56,6 +65,15 @@ export default function UpdateTransactionModal({
   const { data: categories } = useQuery<Category[]>({
     queryKey: ["categories"],
     queryFn: getCategories,
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: updateTransaction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["transactions", ""],
+      });
+    },
   });
 
   return (
