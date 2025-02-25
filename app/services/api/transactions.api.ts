@@ -61,3 +61,13 @@ export async function createTransaction(transaction: {
     throw new Error("Error creating transaction");
   }
 }
+
+export async function deleteTransaction(id: string) {
+  const response = await fetch(`http://localhost:3333/transaction/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error deleting transaction");
+  }
+}
