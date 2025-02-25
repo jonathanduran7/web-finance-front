@@ -1,10 +1,10 @@
 import { JSX } from "react";
 
-export interface TableProps {
+export interface TableProps<T> {
   columns: IColumn[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
-  actions?: IAction[];
+  actions?: IAction<T>[];
 }
 
 export interface IColumn {
@@ -14,13 +14,13 @@ export interface IColumn {
   value?: (row: any) => string | number;
 }
 
-export interface IAction {
+export interface IAction<T> {
   label: string;
-  onClick: (id: string) => void;
+  onClick: (row: T) => void;
   icons: () => JSX.Element;
 }
 
-export default function Table({ columns, data, actions }: TableProps) {
+export default function Table<T>({ columns, data, actions }: TableProps<T>) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getNestedValue = (obj: any, path: string) => {
     return path.split(".").reduce((acc, key) => acc?.[key], obj);
@@ -57,7 +57,7 @@ export default function Table({ columns, data, actions }: TableProps) {
                   {actions.map((action) => (
                     <button
                       key={action.label}
-                      onClick={() => action.onClick("a")}
+                      onClick={() => action.onClick(row as T)}
                     >
                       {action.icons()}
                     </button>
