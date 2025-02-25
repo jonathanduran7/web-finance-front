@@ -25,7 +25,6 @@ export async function getTransactionsPaginated({
       baseUrl += `&${key}=${filters[key]}`;
     }
   }
-  console.log(baseUrl);
 
   const response = await fetch(baseUrl);
 
@@ -33,4 +32,32 @@ export async function getTransactionsPaginated({
     throw new Error("Error fetching transactions");
   }
   return response.json();
+}
+
+export async function createTransaction(transaction: {
+  title: string;
+  amount: number;
+  description?: string;
+  date: string;
+  accountId: number;
+  categoryId: number;
+}) {
+  const response = await fetch("http://localhost:3333/transaction", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      title: transaction.title,
+      amount: Number(transaction.amount),
+      description: transaction.description,
+      date: transaction.date,
+      accountId: Number(transaction.accountId),
+      categoryId: Number(transaction.categoryId),
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Error creating transaction");
+  }
 }

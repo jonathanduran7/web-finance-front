@@ -2,8 +2,9 @@ import { Account } from "@/app/models/Accounts";
 import { Category } from "@/app/models/Category";
 import { getAccount } from "@/app/services/api/account.api";
 import { getCategories } from "@/app/services/api/category.api";
+import { createTransaction } from "@/app/services/api/transactions.api";
 import Modal from "@/components/ui/modal";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 interface Props {
@@ -16,14 +17,15 @@ type Inputs = {
   amount: number;
   description: string;
   date: string;
-  accountId: string;
-  categoryId: string;
+  accountId: number;
+  categoryId: number;
 };
 
 export default function TransactionsModal({
   isModalOpen,
   setIsModalOpen,
 }: Props) {
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -31,7 +33,7 @@ export default function TransactionsModal({
   } = useForm<Inputs>();
 
   const onSubmit = (data: Inputs) => {
-    console.log(data);
+    mutate(data);
     setIsModalOpen(false);
   };
 
@@ -43,6 +45,13 @@ export default function TransactionsModal({
   const { data: categories } = useQuery<Category[]>({
     queryKey: ["categories"],
     queryFn: getCategories,
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: createTransaction,
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: ["transactions"], exact: false });
+    },
   });
 
   return (
