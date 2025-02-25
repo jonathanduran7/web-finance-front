@@ -46,12 +46,7 @@ export default function Page() {
 
   const [modal, setModal] = useState<{
     type: "create" | "edit" | "none";
-    values?: {
-      id: string;
-      account: string;
-      currencyId: string;
-      initialBalance: number;
-    };
+    values?: Transaction;
   }>({ type: "none" });
 
   const { mutate } = useMutation({
@@ -83,8 +78,7 @@ export default function Page() {
     {
       label: "Editar",
       onClick: (row: Transaction) => {
-        console.log("Editar", row.id);
-        setModal({ type: "edit" });
+        setModal({ type: "edit", values: row });
       },
       icons: () => <Edit className="text-blue-500" />,
     },
@@ -127,6 +121,7 @@ export default function Page() {
       </div>
       <ModalFactory
         type={modal.type}
+        values={modal.values}
         onClose={() => setModal({ type: "none" })}
       />
     </div>
