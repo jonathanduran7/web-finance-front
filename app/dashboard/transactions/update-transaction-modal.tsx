@@ -1,14 +1,17 @@
 import { Account } from "@/app/models/Accounts";
 import { Category } from "@/app/models/Category";
+import { Transaction } from "@/app/models/Transaction";
 import { getAccount } from "@/app/services/api/account.api";
 import { getCategories } from "@/app/services/api/category.api";
 import Modal from "@/components/ui/modal";
+import { getFormattedDate } from "@/lib/format";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
+  values: Transaction;
 }
 
 type Inputs = {
@@ -23,12 +26,22 @@ type Inputs = {
 export default function UpdateTransactionModal({
   isModalOpen,
   setIsModalOpen,
+  values,
 }: Props) {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({
+    defaultValues: {
+      title: values.title,
+      amount: values.amount,
+      description: values.description,
+      accountId: values.account.id,
+      categoryId: values.account.id,
+      date: getFormattedDate(values.createdAt),
+    },
+  });
 
   const onSubmit = (data: Inputs) => {
     console.log(data);
