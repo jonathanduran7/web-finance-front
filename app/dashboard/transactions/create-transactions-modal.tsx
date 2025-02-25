@@ -16,8 +16,8 @@ type Inputs = {
   amount: number;
   description: string;
   date: string;
-  accountId: number;
-  categoryId: number;
+  accountId: string;
+  categoryId: string;
 };
 
 export default function TransactionsModal({
@@ -27,7 +27,7 @@ export default function TransactionsModal({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<Inputs>();
 
   const onSubmit = (data: Inputs) => {
@@ -81,8 +81,8 @@ export default function TransactionsModal({
           <div className="mb-4">
             <select
               {...register("accountId", { required: true })}
-              id="account"
-              name="account"
+              id="accountId"
+              name="accountId"
               className="w-full border border-gray-300 rounded px-4 py-2 mt-2 outline-none bg-white"
             >
               {accounts?.map((account) => (
@@ -97,8 +97,8 @@ export default function TransactionsModal({
           <div className="mb-4">
             <select
               {...register("categoryId", { required: true })}
-              id="category"
-              name="category"
+              id="categoryId"
+              name="categoryId"
               className="w-full border border-gray-300 rounded px-4 py-2 mt-2 outline-none bg-white"
             >
               {categories?.map((category) => (
@@ -121,10 +121,18 @@ export default function TransactionsModal({
           </div>
 
           <button
-            className={`mt-4 px-4 py-2 text-white rounded bg-primary w-full`}
+            className={`mt-4 px-4 py-2 text-white rounded w-full ${isValid ? "bg-primary" : "bg-gray-400"}`}
             type="submit"
+            disabled={!isValid}
           >
-            Submit
+            Guardar
+          </button>
+
+          <button
+            className="mt-2 px-4 py-2 bg-white text-primary rounded border border-primary w-full"
+            onClick={() => setIsModalOpen(false)}
+          >
+            Cancelar
           </button>
         </form>
       </Modal.Body>
