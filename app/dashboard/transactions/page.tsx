@@ -84,6 +84,7 @@ export default function Page() {
       label: "Editar",
       onClick: (row: Transaction) => {
         console.log("Editar", row.id);
+        setModal({ type: "edit" });
       },
       icons: () => <Edit className="text-blue-500" />,
     },
