@@ -1,4 +1,5 @@
 import TransactionsModal from "./create-transactions-modal";
+import UpdateTransactionModal from "./update-transaction-modal";
 
 interface ModalFactoryProps {
   type: "create" | "edit" | "none";
@@ -12,7 +13,9 @@ export default function ModalFactory({ type, onClose }: ModalFactoryProps) {
     case "create":
       return <TransactionsModal isModalOpen={true} setIsModalOpen={onClose} />;
     case "edit":
-      return null;
+      return (
+        <UpdateTransactionModal isModalOpen={true} setIsModalOpen={onClose} />
+      );
     default:
       return null;
   }
