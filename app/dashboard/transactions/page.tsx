@@ -1,8 +1,11 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PaginatedResponse } from "@/app/interfaces/Response";
 import { Transaction } from "@/app/models/Transaction";
-import { getTransactionsPaginated } from "@/app/services/api/transactions.api";
+import {
+  deleteTransaction,
+  getTransactionsPaginated,
+} from "@/app/services/api/transactions.api";
 import Table, { IColumn } from "@/components/ui/table/table";
 import dayjs from "dayjs";
 import { formatCurrency } from "@/lib/format";
@@ -26,24 +29,8 @@ const columns: IColumn[] = [
   },
 ];
 
-const actions = [
-  {
-    label: "Editar",
-    onClick: (id: string) => {
-      console.log("Editar", id);
-    },
-    icons: () => <Edit className="text-blue-500" />,
-  },
-  {
-    label: "Eliminar",
-    onClick: (id: string) => {
-      console.log("Eliminar", id);
-    },
-    icons: () => <Trash className="text-red-500" />,
-  },
-];
-
 export default function Page() {
+  const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [querySearch, setQuerySearch] = useState("");
 
@@ -67,6 +54,15 @@ export default function Page() {
     };
   }>({ type: "none" });
 
+  const { mutate } = useMutation({
+    mutationFn: (id: string) => deleteTransaction(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["transactions", querySearch],
+      });
+    },
+  });
+
   if (isLoading) {
     return <p>Cargando...</p>;
   }
@@ -82,6 +78,23 @@ export default function Page() {
   const handleSearch = () => {
     setQuerySearch(search);
   };
+
+  const actions = [
+    {
+      label: "Editar",
+      onClick: (row: Transaction) => {
+        console.log("Editar", row.id);
+      },
+      icons: () => <Edit className="text-blue-500" />,
+    },
+    {
+      label: "Eliminar",
+      onClick: (row: Transaction) => {
+        mutate(String(row.id));
+      },
+      icons: () => <Trash className="text-red-500" />,
+    },
+  ];
 
   return (
     <div>
