@@ -45,6 +45,11 @@ export default function AccountAccordion() {
       </div>
 
       <div className="mt-2">
+        {!data?.length && (
+          <div>
+            No hay registros creados. Crea un registro para visualizarlo.
+          </div>
+        )}
         {data?.map((account) => (
           <div
             key={account.id}

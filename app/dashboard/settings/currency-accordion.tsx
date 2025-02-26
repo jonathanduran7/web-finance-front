@@ -43,6 +43,11 @@ export default function CurrencyAccordion() {
         <div className="font-bold flex-1">Acciones</div>
       </div>
       <div className="mt-2">
+        {!data?.length && (
+          <div>
+            No hay registros creados. Crea un registro para visualizarlo.
+          </div>
+        )}
         {data?.map((currency) => (
           <div
             key={currency.id}

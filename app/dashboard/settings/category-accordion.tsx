@@ -38,6 +38,11 @@ export default function CategoryAccordion() {
       </div>
 
       <div className="mt-2">
+        {!data?.length && (
+          <div>
+            No hay registros creados. Crea un registro para visualizarlo.
+          </div>
+        )}
         {data?.map((category) => (
           <div
             key={category.id}
