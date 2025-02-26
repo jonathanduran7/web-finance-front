@@ -207,18 +207,25 @@ export default function Page() {
               Crear
             </button>
           </div>
-          <Table
-            columns={columns}
-            data={response.data}
-            actions={actions}
-            footer={
-              <FooterTable
-                data={response}
-                setPage={setPage}
-                setLimit={setLimit}
-              />
-            }
-          />
+          {!response.data.length ? (
+            <div className="w-full flex justify-center mt-4 text-center text-sm text-gray-500 italic">
+              No hay registros disponibles. <br />
+              Crea nuevos registros para visualizarlos
+            </div>
+          ) : (
+            <Table
+              columns={columns}
+              data={response.data}
+              actions={actions}
+              footer={
+                <FooterTable
+                  data={response}
+                  setPage={setPage}
+                  setLimit={setLimit}
+                />
+              }
+            />
+          )}
         </div>
       </div>
       <ModalFactory
