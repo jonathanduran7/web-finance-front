@@ -1,3 +1,4 @@
+"use client";
 import { Account } from "@/app/models/Accounts";
 import { Category } from "@/app/models/Category";
 import { getAccount } from "@/app/services/api/account.api";
@@ -5,7 +6,8 @@ import { getCategories } from "@/app/services/api/category.api";
 import { createTransaction } from "@/app/services/api/transactions.api";
 import Modal from "@/components/ui/modal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { NumericFormat } from "react-number-format";
 
 interface Props {
   isModalOpen: boolean;
@@ -29,11 +31,25 @@ export default function TransactionsModal({
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isValid },
   } = useForm<Inputs>();
 
   const onSubmit = (data: Inputs) => {
-    mutate(data);
+    const formattedData = {
+      ...data,
+      amount: Number(
+        data.amount
+          .toString()
+          .replace("$", "")
+          .replace(/\./g, "")
+          .replace(",", "."),
+      ),
+      accountId: Number(data.accountId),
+      categoryId: Number(data.categoryId),
+    };
+
+    mutate(formattedData);
     setIsModalOpen(false);
   };
 
@@ -120,12 +136,25 @@ export default function TransactionsModal({
           </div>
 
           <div className="mb-4">
-            <input
-              type="number"
-              placeholder="Amount"
-              {...register("amount", { required: true })}
-              className="w-full border border-gray-300 rounded px-4 py-2 mt-2 outline-none"
+            <Controller
+              name="amount"
+              control={control}
+              rules={{ required: "El monto es requerido" }}
+              render={({ field }) => (
+                <NumericFormat
+                  {...field}
+                  thousandSeparator="."
+                  decimalSeparator=","
+                  prefix="$"
+                  allowNegative={true}
+                  decimalScale={2}
+                  fixedDecimalScale
+                  placeholder="$0.00"
+                  className="w-full border border-gray-300 rounded px-4 py-2 mt-2 outline-none"
+                />
+              )}
             />
+
             {errors.amount && <span>El monto es requerido</span>}
           </div>
 

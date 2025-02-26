@@ -7,7 +7,8 @@ import { updateTransaction } from "@/app/services/api/transactions.api";
 import Modal from "@/components/ui/modal";
 import { getFormattedDate } from "@/lib/format";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { NumericFormat } from "react-number-format";
 
 interface Props {
   isModalOpen: boolean;
@@ -34,6 +35,7 @@ export default function UpdateTransactionModal({
     register,
     handleSubmit,
     formState: { errors, isValid },
+    control,
   } = useForm<Inputs>({
     defaultValues: {
       title: values.title,
@@ -142,12 +144,25 @@ export default function UpdateTransactionModal({
           </div>
 
           <div className="mb-4">
-            <input
-              type="number"
-              placeholder="Amount"
-              {...register("amount", { required: true })}
-              className="w-full border border-gray-300 rounded px-4 py-2 mt-2 outline-none"
+            <Controller
+              name="amount"
+              control={control}
+              rules={{ required: "El monto es requerido" }}
+              render={({ field }) => (
+                <NumericFormat
+                  {...field}
+                  thousandSeparator="."
+                  decimalSeparator=","
+                  prefix="$"
+                  allowNegative={true}
+                  decimalScale={2}
+                  fixedDecimalScale
+                  placeholder="$0.00"
+                  className="w-full border border-gray-300 rounded px-4 py-2 mt-2 outline-none"
+                />
+              )}
             />
+
             {errors.amount && <span>El monto es requerido</span>}
           </div>
 
