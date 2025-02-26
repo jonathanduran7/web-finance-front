@@ -12,10 +12,20 @@ const Accordion = ({ title, children }: AccordionProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (contentRef.current) {
-      setHeight(contentRef.current.scrollHeight);
-    }
-  }, [children, isOpen]);
+    if (!contentRef.current) return;
+
+    const observer = new ResizeObserver(() => {
+      if (contentRef.current) {
+        setHeight(contentRef.current.scrollHeight);
+      }
+    });
+
+    observer.observe(contentRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
