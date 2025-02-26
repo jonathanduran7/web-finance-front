@@ -21,7 +21,7 @@ export default function FooterTable({ data, setPage, setLimit }: Props) {
   };
 
   return (
-    <div className="flex justify-between bg-gray-100 p-4 w-full items-center">
+    <div className="flex justify-between bg-gray-100 p-4 w-full items-center rounded">
       <p>
         Mostrando {data.data.length} de {data.total}
       </p>
