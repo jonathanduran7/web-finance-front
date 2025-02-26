@@ -94,30 +94,32 @@ export default function Page() {
   return (
     <div>
       <p>Transaction</p>
-      <div className="w-[70%] mt-5">
-        <div className="w-full">
-          <input
-            type="text"
-            placeholder="Buscar"
-            className="w-[300px] p-2 border border-gray-300 rounded-md outline-none"
-            value={search}
-            name="search"
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button
-            className="bg-primary text-white p-2 rounded-md ml-2"
-            onClick={() => handleSearch()}
-          >
-            Buscar
-          </button>
-          <button
-            onClick={() => setModal({ type: "create" })}
-            className="bg-primary text-white p-2 rounded-md ml-2"
-          >
-            Crear
-          </button>
+      <div className="w-[60%]">
+        <div className="mt-5">
+          <div className="w-full flex justify-end mb-5">
+            <input
+              type="text"
+              placeholder="Buscar"
+              className="w-[300px] p-2 border border-gray-300 rounded-md outline-none"
+              value={search}
+              name="search"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button
+              className="bg-primary text-white p-2 rounded-md ml-2"
+              onClick={() => handleSearch()}
+            >
+              Buscar
+            </button>
+            <button
+              onClick={() => setModal({ type: "create" })}
+              className="bg-primary text-white p-2 rounded-md ml-2"
+            >
+              Crear
+            </button>
+          </div>
+          <Table columns={columns} data={response.data} actions={actions} />
         </div>
-        <Table columns={columns} data={response.data} actions={actions} />
       </div>
       <ModalFactory
         type={modal.type}

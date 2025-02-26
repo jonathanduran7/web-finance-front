@@ -27,8 +27,8 @@ export default function Table<T>({ columns, data, actions }: TableProps<T>) {
   };
 
   return (
-    <div>
-      <table>
+    <div className="w-full">
+      <table className="w-full">
         <thead>
           <tr>
             {columns?.map((column) => (
