@@ -12,6 +12,7 @@ import { formatCurrency } from "@/lib/format";
 import { useState } from "react";
 import ModalFactory from "./modal-transactions-factory";
 import { Edit, Trash } from "lucide-react";
+import FooterTable from "./footer-table";
 
 const columns: IColumn[] = [
   {
@@ -33,15 +34,17 @@ export default function Page() {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [querySearch, setQuerySearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
 
   const {
     data: response,
     isLoading,
     isError,
   } = useQuery<PaginatedResponse<Transaction>>({
-    queryKey: ["transactions", querySearch],
+    queryKey: ["transactions", querySearch, page, limit],
     queryFn: () =>
-      getTransactionsPaginated({ page: 1, limit: 10, search: querySearch }),
+      getTransactionsPaginated({ page, limit, search: querySearch }),
   });
 
   const [modal, setModal] = useState<{
@@ -118,7 +121,18 @@ export default function Page() {
               Crear
             </button>
           </div>
-          <Table columns={columns} data={response.data} actions={actions} />
+          <Table
+            columns={columns}
+            data={response.data}
+            actions={actions}
+            footer={
+              <FooterTable
+                data={response}
+                setPage={setPage}
+                setLimit={setLimit}
+              />
+            }
+          />
         </div>
       </div>
       <ModalFactory
