@@ -4,7 +4,7 @@ import { Transaction } from "@/app/models/Transaction";
 export async function getTransactionsPaginated({
   page = 1,
   limit = 10,
-  orderBy = "ASC",
+  orderBy = "DESC",
   search,
   filters,
 }: {
