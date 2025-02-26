@@ -5,6 +5,7 @@ export interface TableProps<T> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
   actions?: IAction<T>[];
+  footer?: JSX.Element;
 }
 
 export interface IColumn {
@@ -20,7 +21,12 @@ export interface IAction<T> {
   icons: () => JSX.Element;
 }
 
-export default function Table<T>({ columns, data, actions }: TableProps<T>) {
+export default function Table<T>({
+  columns,
+  data,
+  actions,
+  footer,
+}: TableProps<T>) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getNestedValue = (obj: any, path: string) => {
     return path.split(".").reduce((acc, key) => acc?.[key], obj);
@@ -68,6 +74,7 @@ export default function Table<T>({ columns, data, actions }: TableProps<T>) {
           ))}
         </tbody>
       </table>
+      {footer && <div>{footer}</div>}
     </div>
   );
 }
