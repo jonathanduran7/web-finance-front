@@ -13,6 +13,10 @@ import { useState } from "react";
 import ModalFactory from "./modal-transactions-factory";
 import { Edit, MessageSquarePlus, Trash } from "lucide-react";
 import FooterTable from "./footer-table";
+import { Account } from "@/app/models/Accounts";
+import { getAccount } from "@/app/services/api/account.api";
+import { Category } from "@/app/models/Category";
+import { getCategories } from "@/app/services/api/category.api";
 
 const columns: IColumn[] = [
   {
@@ -61,6 +65,16 @@ export default function Page() {
     },
   });
 
+  const { data: accounts } = useQuery<Account[]>({
+    queryKey: ["accounts"],
+    queryFn: getAccount,
+  });
+
+  const { data: categories } = useQuery<Category[]>({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
+
   if (isLoading) {
     return <p>Cargando...</p>;
   }
@@ -106,6 +120,53 @@ export default function Page() {
       <p>Transaction</p>
       <div className="w-[60%]">
         <div className="mt-5">
+          <div className="w-full flex justify-end mb-5  flex-wrap gap-5">
+            <div>
+              <p className="mb-2">Cuenta</p>
+              <select
+                name="account"
+                className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
+              >
+                <option value={0}>Todas</option>
+                {accounts?.map((account) => (
+                  <option key={account.id} value={account.id}>
+                    {account.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="ml-5">
+              <p className="mb-2">Categoria</p>
+              <select
+                name="category"
+                className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
+              >
+                <option value={0}>Todas</option>
+                {categories?.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="ml-5">
+              <p className="mb-2">Fecha Inicio</p>
+              <input
+                type="date"
+                className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
+              />
+            </div>
+
+            <div className="ml-5">
+              <p className="mb-2">Fecha Fin</p>
+              <input
+                type="date"
+                className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
+              />
+            </div>
+          </div>
           <div className="w-full flex justify-end mb-5">
             <input
               type="text"
