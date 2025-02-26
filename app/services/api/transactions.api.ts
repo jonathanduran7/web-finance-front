@@ -21,8 +21,20 @@ export async function getTransactionsPaginated({
   }
 
   if (filters) {
+    filters = Object.fromEntries(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      Object.entries(filters).filter(
+        ([_, value]) => value !== "" && value !== "0",
+      ),
+    );
+
+    const relations = {
+      accountId: "account.id",
+      categoryId: "category.id",
+    };
+
     for (const key in filters) {
-      baseUrl += `&${key}=${filters[key]}`;
+      baseUrl += `&filters[${relations[key as keyof typeof relations]}]=${filters[key]}`;
     }
   }
 
