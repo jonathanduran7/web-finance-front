@@ -9,12 +9,10 @@ interface Props {
 
 export default function FooterTable({ data, setPage, setLimit }: Props) {
   const handlePrevious = (page: number) => {
-    console.log("previous", page);
     setPage(page);
   };
 
   const handleNext = (page: number) => {
-    console.log("next", page);
     setPage(page);
   };
 
