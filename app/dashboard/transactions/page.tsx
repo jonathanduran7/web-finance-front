@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import { formatCurrency } from "@/lib/format";
 import { useState } from "react";
 import ModalFactory from "./modal-transactions-factory";
-import { Edit, Trash } from "lucide-react";
+import { Edit, MessageSquarePlus, Trash } from "lucide-react";
 import FooterTable from "./footer-table";
 
 const columns: IColumn[] = [
@@ -48,7 +48,7 @@ export default function Page() {
   });
 
   const [modal, setModal] = useState<{
-    type: "create" | "edit" | "none";
+    type: "create" | "edit" | "show" | "none";
     values?: Transaction;
   }>({ type: "none" });
 
@@ -91,6 +91,13 @@ export default function Page() {
         mutate(String(row.id));
       },
       icons: () => <Trash className="text-red-500" />,
+    },
+    {
+      label: "Ver",
+      onClick: (row: Transaction) => {
+        setModal({ type: "show", values: row });
+      },
+      icons: () => <MessageSquarePlus className="text-black-500" />,
     },
   ];
 
