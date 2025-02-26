@@ -48,14 +48,19 @@ export default function UpdateTransactionModal({
   });
 
   const onSubmit = (data: Inputs) => {
-    mutate({
-      id: values.id,
-      title: data.title,
-      amount: data.amount,
-      description: data.description,
-      accountId: data.accountId,
-      categoryId: data.categoryId,
-    });
+    const formattedData = {
+      ...data,
+      amount: Number(
+        data.amount
+          .toString()
+          .replace("$", "")
+          .replace(/\./g, "")
+          .replace(",", "."),
+      ),
+      accountId: Number(data.accountId),
+      categoryId: Number(data.categoryId),
+    };
+    mutate({ id: values.id, ...formattedData });
     setIsModalOpen(false);
   };
 
