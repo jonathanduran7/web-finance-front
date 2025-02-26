@@ -40,7 +40,7 @@ export default function FooterTable({ data, setPage, setLimit }: Props) {
           </select>
         </div>
 
-        {
+        {data.previousPage && (
           <button
             className="p-2 bg-gray-200 rounded-lg"
             onClick={() => handlePrevious(data.previousPage || 1)}
@@ -48,7 +48,7 @@ export default function FooterTable({ data, setPage, setLimit }: Props) {
           >
             Anterior
           </button>
-        }
+        )}
 
         {data.nextPage && (
           <button
