@@ -40,15 +40,19 @@ export default function Page() {
   const [querySearch, setQuerySearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [filters, setFilters] = useState<Record<string, string>>({
+    accountId: "0",
+    categoryId: "0",
+  });
 
   const {
     data: response,
     isLoading,
     isError,
   } = useQuery<PaginatedResponse<Transaction>>({
-    queryKey: ["transactions", querySearch, page, limit],
+    queryKey: ["transactions", querySearch, page, limit, filters],
     queryFn: () =>
-      getTransactionsPaginated({ page, limit, search: querySearch }),
+      getTransactionsPaginated({ page, limit, search: querySearch, filters }),
   });
 
   const [modal, setModal] = useState<{
@@ -115,6 +119,10 @@ export default function Page() {
     },
   ];
 
+  const handleFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilters({ ...filters, [e.target.name]: e.target.value });
+  };
+
   return (
     <div>
       <p>Transaction</p>
@@ -124,8 +132,10 @@ export default function Page() {
             <div>
               <p className="mb-2">Cuenta</p>
               <select
-                name="account"
+                name="accountId"
                 className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
+                value={filters.accountId}
+                onChange={(e) => handleFilter(e)}
               >
                 <option value={0}>Todas</option>
                 {accounts?.map((account) => (
@@ -139,8 +149,10 @@ export default function Page() {
             <div className="ml-5">
               <p className="mb-2">Categoria</p>
               <select
-                name="category"
+                name="categoryId"
                 className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
+                value={filters.categoryId}
+                onChange={(e) => handleFilter(e)}
               >
                 <option value={0}>Todas</option>
                 {categories?.map((category) => (
@@ -156,6 +168,9 @@ export default function Page() {
               <input
                 type="date"
                 className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
+                onChange={(e) =>
+                  setFilters({ ...filters, startDate: e.target.value })
+                }
               />
             </div>
 
@@ -164,6 +179,9 @@ export default function Page() {
               <input
                 type="date"
                 className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
+                onChange={(e) =>
+                  setFilters({ ...filters, endDate: e.target.value })
+                }
               />
             </div>
           </div>
