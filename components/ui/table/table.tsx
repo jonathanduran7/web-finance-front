@@ -42,7 +42,7 @@ export default function Table<T>({
                 {column.label}
               </th>
             ))}
-            {actions && <th className="p-2">Acciones</th>}
+            {actions && <th className="p-2 text-center">Acciones</th>}
           </tr>
         </thead>
         <tbody>
@@ -59,7 +59,7 @@ export default function Table<T>({
                 </td>
               ))}
               {actions && (
-                <td className="p-2 flex gap-3">
+                <td className="p-2 flex gap-3 justify-center">
                   {actions.map((action) => (
                     <button
                       key={action.label}
