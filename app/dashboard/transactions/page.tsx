@@ -194,20 +194,15 @@ export default function Page() {
             <input
               type="text"
               placeholder="Buscar"
-              className="w-[300px] p-2 border border-gray-300 rounded-md outline-none"
+              className="w-[400px] p-2 border border-gray-300 rounded-md outline-none"
               value={search}
               name="search"
               onChange={(e) => setSearch(e.target.value)}
+              onKeyUp={(e) => e.key === "Enter" && handleSearch()}
             />
             <button
-              className="bg-primary text-white p-2 rounded-md ml-2"
-              onClick={() => handleSearch()}
-            >
-              Buscar
-            </button>
-            <button
               onClick={() => setModal({ type: "create" })}
-              className="bg-primary text-white p-2 rounded-md ml-2"
+              className="bg-primary text-white p-2 rounded-md ml-2 w-[110px]"
             >
               Crear
             </button>
