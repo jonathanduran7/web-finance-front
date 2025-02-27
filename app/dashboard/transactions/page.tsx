@@ -193,7 +193,7 @@ export default function Page() {
           <div className="w-full flex justify-end mb-5">
             <input
               type="text"
-              placeholder="Buscar"
+              placeholder="Buscar por titulo o descripcion"
               className="w-[400px] p-2 border border-gray-300 rounded-md outline-none"
               value={search}
               name="search"
