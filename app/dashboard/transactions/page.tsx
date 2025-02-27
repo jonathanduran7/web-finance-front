@@ -17,6 +17,7 @@ import { Account } from "@/app/models/Accounts";
 import { getAccount } from "@/app/services/api/account.api";
 import { Category } from "@/app/models/Category";
 import { getCategories } from "@/app/services/api/category.api";
+import Snackbar from "@/components/ui/snackbar";
 
 const columns: IColumn[] = [
   {
@@ -48,6 +49,8 @@ export default function Page() {
     startDate: "",
     endDate: "",
   });
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [message, setMessage] = useState("");
 
   const {
     data: response,
@@ -104,6 +107,7 @@ export default function Page() {
 
   const handleSearch = () => {
     setQuerySearch(search);
+    setShowSnackbar(true);
   };
 
   const actions = [
@@ -118,6 +122,8 @@ export default function Page() {
       label: "Eliminar",
       onClick: (row: Transaction) => {
         mutate(String(row.id));
+        setShowSnackbar(true);
+        setMessage("Movimiento eliminado correctamente");
       },
       icons: () => <Trash className="text-red-500" />,
     },
@@ -248,6 +254,13 @@ export default function Page() {
         values={modal.values}
         onClose={() => setModal({ type: "none" })}
       />
+      {showSnackbar && (
+        <Snackbar
+          message={message}
+          duration={3000}
+          onClose={() => setShowSnackbar(false)}
+        />
+      )}
     </div>
   );
 }
