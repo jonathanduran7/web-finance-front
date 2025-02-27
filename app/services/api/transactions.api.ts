@@ -7,12 +7,16 @@ export async function getTransactionsPaginated({
   orderBy = "DESC",
   search,
   filters,
+  startDate,
+  endDate,
 }: {
   page?: number;
   limit?: number;
   orderBy?: string;
   search?: string;
   filters?: Record<string, string>;
+  startDate?: string;
+  endDate?: string;
 }): Promise<PaginatedResponse<Transaction>> {
   let baseUrl = `http://localhost:3333/transaction/query?page=${page}&limit=${limit}&order=${orderBy}`;
 
@@ -36,6 +40,14 @@ export async function getTransactionsPaginated({
     for (const key in filters) {
       baseUrl += `&filters[${relations[key as keyof typeof relations]}]=${filters[key]}`;
     }
+  }
+
+  console.log(startDate, endDate);
+  if (startDate) {
+    baseUrl += `&startDate=${startDate}`;
+  }
+  if (endDate) {
+    baseUrl += `&endDate=${endDate}`;
   }
 
   const response = await fetch(baseUrl);
