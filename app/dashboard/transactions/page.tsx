@@ -44,15 +44,26 @@ export default function Page() {
     accountId: "0",
     categoryId: "0",
   });
+  const [dates, setDates] = useState<{ startDate: string; endDate: string }>({
+    startDate: "",
+    endDate: "",
+  });
 
   const {
     data: response,
     isLoading,
     isError,
   } = useQuery<PaginatedResponse<Transaction>>({
-    queryKey: ["transactions", querySearch, page, limit, filters],
+    queryKey: ["transactions", querySearch, page, limit, filters, dates],
     queryFn: () =>
-      getTransactionsPaginated({ page, limit, search: querySearch, filters }),
+      getTransactionsPaginated({
+        page,
+        limit,
+        search: querySearch,
+        filters,
+        startDate: dates.startDate,
+        endDate: dates.endDate,
+      }),
   });
 
   const [modal, setModal] = useState<{
@@ -123,6 +134,10 @@ export default function Page() {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
+  const handleDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDates({ ...dates, [e.target.name]: e.target.value });
+  };
+
   return (
     <div>
       <p className="mb-4 text-3xl">Movimientos</p>
@@ -172,10 +187,10 @@ export default function Page() {
               <p className="mb-2">Fecha Inicio</p>
               <input
                 type="date"
+                name="startDate"
+                value={dates.startDate}
                 className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
-                onChange={(e) =>
-                  setFilters({ ...filters, startDate: e.target.value })
-                }
+                onChange={(e) => handleDate(e)}
               />
             </div>
 
@@ -183,10 +198,10 @@ export default function Page() {
               <p className="mb-2">Fecha Fin</p>
               <input
                 type="date"
+                name="endDate"
+                value={dates.endDate}
                 className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
-                onChange={(e) =>
-                  setFilters({ ...filters, endDate: e.target.value })
-                }
+                onChange={(e) => handleDate(e)}
               />
             </div>
           </div>
