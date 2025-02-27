@@ -22,7 +22,7 @@ const columns: IColumn[] = [
   {
     name: "createdAt",
     label: "Fecha",
-    value: (row: Transaction) => dayjs(row.createdAt).format("DD/MM"),
+    value: (row: Transaction) => dayjs(row.updatedAt).format("DD/MM"),
   },
   { name: "title", label: "Titulo" },
   { name: "category.name", label: "Categoria" },
