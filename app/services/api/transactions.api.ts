@@ -22,8 +22,8 @@ export async function getTransactionsPaginated({
 
   if (filters) {
     filters = Object.fromEntries(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       Object.entries(filters).filter(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ([_, value]) => value !== "" && value !== "0",
       ),
     );
@@ -91,6 +91,7 @@ export async function updateTransaction(transaction: {
   description?: string;
   accountId: number;
   categoryId: number;
+  date: string;
 }) {
   const response = await fetch(
     `http://localhost:3333/transaction/${transaction.id}`,
@@ -105,6 +106,7 @@ export async function updateTransaction(transaction: {
         description: transaction.description,
         accountId: Number(transaction.accountId),
         categoryId: Number(transaction.categoryId),
+        date: transaction.date,
       }),
     },
   );
