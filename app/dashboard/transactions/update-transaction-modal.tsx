@@ -39,7 +39,7 @@ export default function UpdateTransactionModal({
   } = useForm<Inputs>({
     defaultValues: {
       title: values.title,
-      amount: values.amount,
+      amount: parseFloat(values.amount.toString()),
       description: values.description,
       accountId: values.account.id,
       categoryId: values.account.id,
