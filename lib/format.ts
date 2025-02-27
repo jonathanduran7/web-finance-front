@@ -1,4 +1,8 @@
-export const formatCurrency = (value: number): string => {
+export const formatCurrency = (value: number | string): string => {
+  if (typeof value === "string") {
+    value = parseFloat(value);
+  }
+
   return new Intl.NumberFormat("es-AR", {
     style: "currency",
     currency: "ARS",
