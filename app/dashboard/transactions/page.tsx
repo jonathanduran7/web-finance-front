@@ -125,7 +125,12 @@ export default function Page() {
 
   return (
     <div>
-      <p>Transaction</p>
+      <p className="mb-4 text-3xl">Movimientos</p>
+      <p className="mb-4 text-gray-500 text-sm w-[60%]">
+        Aqui podras visualizar todos los movimientos que has realizado en tus
+        cuentas y categorias. <br /> Además, podras filtrar por cuenta,
+        categoria y rango de fechas.
+      </p>
       <div className="w-[60%]">
         <div className="mt-5">
           <div className="w-full flex justify-end mb-5  flex-wrap gap-5">
