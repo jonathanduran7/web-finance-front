@@ -12,6 +12,7 @@ import { Edit, MessageSquarePlus, Trash } from "lucide-react";
 import { useState } from "react";
 import ModalFactory from "./modal-transfer-factory";
 import Snackbar from "@/components/ui/snackbar";
+import FooterTable from "./footer-table";
 
 const columns: IColumn[] = [
   {
@@ -40,11 +41,15 @@ export default function Page() {
   const [querySearch, setQuerySearch] = useState("");
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [message, setMessage] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
   const { data, isError, isLoading } = useQuery({
-    queryKey: ["transfers", querySearch],
+    queryKey: ["transfers", querySearch, page, limit],
     queryFn: () =>
       getTransferPaginated({
         search: querySearch,
+        page,
+        limit,
       }),
   });
 
@@ -132,7 +137,14 @@ export default function Page() {
             Crea nuevos registros para visualizarlos
           </div>
         ) : (
-          <Table columns={columns} data={data.data} actions={actions} />
+          <Table
+            columns={columns}
+            data={data.data}
+            actions={actions}
+            footer={
+              <FooterTable data={data} setPage={setPage} setLimit={setLimit} />
+            }
+          />
         )}
       </div>
       <ModalFactory
