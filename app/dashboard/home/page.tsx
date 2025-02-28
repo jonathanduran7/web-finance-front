@@ -1,13 +1,33 @@
 "use client";
+import { PaginatedResponse } from "@/app/interfaces/Response";
 import { Dashboard } from "@/app/models/Dashboard";
-import { getDashboard } from "@/app/services/api/transactions.api";
+import { Transaction } from "@/app/models/Transaction";
+import {
+  getDashboard,
+  getTransactionsPaginated,
+} from "@/app/services/api/transactions.api";
+import Table from "@/components/ui/table/table";
 import { formatCurrency } from "@/lib/format";
 import { useQuery } from "@tanstack/react-query";
+import { columns as columnsTransaction } from "../transactions/page";
+import { columns as columnsTransfer } from "../transfers/page";
+import { getTransferPaginated } from "@/app/services/api/transfer.api";
+import { Transfer } from "@/app/models/Transfer";
 
 export default function Page() {
   const { data, isError, isLoading } = useQuery<Dashboard>({
     queryKey: ["dashboard"],
     queryFn: () => getDashboard(),
+  });
+
+  const { data: transactions } = useQuery<PaginatedResponse<Transaction>>({
+    queryKey: ["transactions"],
+    queryFn: () => getTransactionsPaginated({ page: 1, limit: 5 }),
+  });
+
+  const { data: transfers } = useQuery<PaginatedResponse<Transfer>>({
+    queryKey: ["transfers"],
+    queryFn: () => getTransferPaginated({ page: 1, limit: 4 }),
   });
 
   if (isLoading) return <div>Loading...</div>;
@@ -40,7 +60,23 @@ export default function Page() {
         </div>
       </div>
       <div className="flex mt-5">
-        <div className="w-[70%]"></div>
+        <div className="w-[70%] p-4">
+          {transactions && (
+            <div>
+              <h2 className="text-xl font-bold mb-2">Últimas transacciones</h2>
+              <Table columns={columnsTransaction} data={transactions?.data} />
+            </div>
+          )}
+
+          {transfers && (
+            <div className="mt-10">
+              <h2 className="text-xl font-bold mb-2 mt-4">
+                Últimas transferencias
+              </h2>
+              <Table columns={columnsTransfer} data={transfers?.data} />
+            </div>
+          )}
+        </div>
         <div className="w-[30%] flex flex-col gap-4">
           <div className="bg-gray-100 p-4 rounded-md mt-4 w-full">
             <h2 className="text-xl font-bold mb-2">Categorías</h2>
