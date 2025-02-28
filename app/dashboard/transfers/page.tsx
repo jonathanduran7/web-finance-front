@@ -74,7 +74,7 @@ export default function Page() {
     {
       label: "Editar",
       onClick: (row: Transfer) => {
-        console.log(row);
+        setModal({ type: "edit", values: row });
       },
       icons: () => <Edit className="text-blue-500" />,
     },
