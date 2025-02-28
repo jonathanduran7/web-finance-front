@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { Edit, MessageSquarePlus, Trash } from "lucide-react";
 import { useState } from "react";
+import ModalFactory from "./modal-transfer-factory";
 
 const columns: IColumn[] = [
   {
@@ -40,6 +41,11 @@ export default function Page() {
       }),
   });
 
+  const [modal, setModal] = useState<{
+    type: "create" | "edit" | "show" | "none";
+    values?: Transfer;
+  }>({ type: "none" });
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -66,7 +72,7 @@ export default function Page() {
     {
       label: "Ver",
       onClick: (row: Transfer) => {
-        console.log(row);
+        setModal({ type: "show", values: row });
       },
       icons: () => <MessageSquarePlus className="text-black-500" />,
     },
@@ -110,6 +116,11 @@ export default function Page() {
           <Table columns={columns} data={data.data} actions={actions} />
         )}
       </div>
+      <ModalFactory
+        type={modal.type}
+        onClose={() => setModal({ type: "none" })}
+        values={modal.values}
+      />
     </div>
   );
 }
