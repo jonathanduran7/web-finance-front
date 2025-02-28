@@ -118,7 +118,10 @@ export default function Page() {
           onChange={(e) => setSearch(e.target.value)}
           onKeyUp={(e) => e.key === "Enter" && handleSearch()}
         />
-        <button className="bg-primary text-white p-2 rounded-md ml-2 w-[110px]">
+        <button
+          onClick={() => setModal({ type: "create" })}
+          className="bg-primary text-white p-2 rounded-md ml-2 w-[110px]"
+        >
           Crear
         </button>
       </div>
