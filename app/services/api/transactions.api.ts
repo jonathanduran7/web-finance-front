@@ -1,5 +1,7 @@
 import { PaginatedResponse } from "@/app/interfaces/Response";
+import { Dashboard } from "@/app/models/Dashboard";
 import { Transaction } from "@/app/models/Transaction";
+import dayjs from "dayjs";
 
 export async function getTransactionsPaginated({
   page = 1,
@@ -124,4 +126,18 @@ export async function updateTransaction(transaction: {
   if (!response.ok) {
     throw new Error("Error updating transaction");
   }
+}
+
+export async function getDashboard(): Promise<Dashboard> {
+  const startDate = dayjs().startOf("month").format("YYYY-MM-DD");
+  const endDate = dayjs().endOf("month").format("YYYY-MM-DD");
+
+  const response = await fetch(
+    `http://localhost:3333/transaction/dashboard?startDate=${startDate}&endDate=${endDate}`,
+  );
+
+  if (!response.ok) {
+    throw new Error("Error fetching dashboard");
+  }
+  return response.json();
 }
