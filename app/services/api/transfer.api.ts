@@ -43,8 +43,8 @@ export async function getTransferPaginated({
     );
 
     const relations = {
-      accountId: "sourceAccount.id",
-      categoryId: "destinationAccount.id",
+      destinationAccountId: "sourceAccount.id",
+      sourceAccountId: "destinationAccount.id",
     };
 
     for (const key in filters) {
