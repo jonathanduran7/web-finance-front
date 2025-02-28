@@ -1,6 +1,11 @@
 import { PaginatedResponse } from "@/app/interfaces/Response";
 import { Transfer } from "@/app/models/Transfer";
 
+type TransferCreate = Omit<
+  Transfer,
+  "createdAt" | "updatedAt" | "id" | "sourceAccount" | "destinationAccount"
+>;
+
 export async function getTransferPaginated({
   page = 1,
   limit = 10,
@@ -64,5 +69,19 @@ export async function deleteTransfer(id: string): Promise<void> {
 
   if (!response.ok) {
     throw new Error("Error deleting transaction");
+  }
+}
+
+export async function createTransfer(data: TransferCreate): Promise<void> {
+  const response = await fetch("http://localhost:3333/transfer", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Error creating transaction");
   }
 }
