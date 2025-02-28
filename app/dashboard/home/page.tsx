@@ -63,7 +63,7 @@ export default function Page() {
         <div className="w-[70%] p-4">
           {transactions && (
             <div>
-              <h2 className="text-xl font-bold mb-2">Últimas transacciones</h2>
+              <h2 className="text-xl font-bold mb-2">Últimos movimientos</h2>
               <Table columns={columnsTransaction} data={transactions?.data} />
             </div>
           )}
