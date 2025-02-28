@@ -39,15 +39,16 @@ export default function Page() {
           </p>
         </div>
       </div>
-      <div>
-        <h2>Categorías</h2>
-        <ul>
+      <div className="bg-gray-100 p-4 rounded-md mt-4 w-[200px]">
+        <h2 className="text-xl font-bold mb-2">Categorías</h2>
+        <div className="w-full">
           {data.categories.map((category) => (
-            <li key={category.category}>
-              {category.category}: {category.total}
-            </li>
+            <div key={category.category} className="flex justify-between mt-2">
+              <p>{category.category}</p>
+              <p>{formatCurrency(category.total)}</p>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
       <div>
         <h2>Cuentas</h2>
