@@ -1,5 +1,6 @@
 import { Transfer } from "@/app/models/Transfer";
 import DetailTransferModal from "./detail-transfer-modal";
+import CreateTransferModal from "./create-transfer.modal";
 
 interface ModalFactoryProps {
   type: "create" | "edit" | "show" | "none";
@@ -13,6 +14,10 @@ export default function ModalFactory({
   values,
 }: ModalFactoryProps) {
   switch (type) {
+    case "create":
+      return (
+        <CreateTransferModal isModalOpen={true} setIsModalOpen={onClose} />
+      );
     case "show":
       return (
         values && (
