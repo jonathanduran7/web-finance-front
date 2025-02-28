@@ -56,3 +56,13 @@ export async function getTransferPaginated({
   }
   return response.json();
 }
+
+export async function deleteTransfer(id: string): Promise<void> {
+  const response = await fetch(`http://localhost:3333/transfer/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error deleting transaction");
+  }
+}
