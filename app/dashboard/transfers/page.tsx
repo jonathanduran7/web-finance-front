@@ -13,6 +13,8 @@ import { useState } from "react";
 import ModalFactory from "./modal-transfer-factory";
 import Snackbar from "@/components/ui/snackbar";
 import FooterTable from "./footer-table";
+import { Account } from "@/app/models/Accounts";
+import { getAccount } from "@/app/services/api/account.api";
 
 const columns: IColumn[] = [
   {
@@ -43,14 +45,31 @@ export default function Page() {
   const [message, setMessage] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [filters, setFilters] = useState<Record<string, string>>({
+    sourceAccountId: "0",
+    destinationAccountId: "0",
+  });
+  const [dates, setDates] = useState<{ startDate: string; endDate: string }>({
+    startDate: "",
+    endDate: "",
+  });
+
   const { data, isError, isLoading } = useQuery({
-    queryKey: ["transfers", querySearch, page, limit],
+    queryKey: ["transfers", querySearch, page, limit, filters, dates],
     queryFn: () =>
       getTransferPaginated({
         search: querySearch,
         page,
         limit,
+        endDate: dates.endDate,
+        startDate: dates.startDate,
+        filters,
       }),
+  });
+
+  const { data: accounts } = useQuery<Account[]>({
+    queryKey: ["accounts"],
+    queryFn: getAccount,
   });
 
   const { mutate } = useMutation({
@@ -103,6 +122,10 @@ export default function Page() {
     setQuerySearch(search);
   };
 
+  const handleFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilters({ ...filters, [e.target.name]: e.target.value });
+  };
+
   return (
     <div>
       <div className="w-[60%]">
@@ -112,6 +135,63 @@ export default function Page() {
           <br /> Puedes filtrar por fecha, monto, cuenta de origen y cuenta de
           destino.
         </p>
+      </div>
+      <div className="flex gap-5 justify-end mb-5 w-[60%]">
+        <div>
+          <p className="mb-2">Cuenta Origen</p>
+          <select
+            name="sourceAccountId"
+            className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
+            value={filters.sourceAccountId}
+            onChange={(e) => handleFilter(e)}
+          >
+            <option value="">Todas</option>
+            {accounts?.map((account) => (
+              <option key={account.id} value={account.id}>
+                {account.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <p className="mb-2">Cuenta Destino</p>
+          <select
+            name="destinationAccountId"
+            className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
+            value={filters.destinationAccountId}
+            onChange={(e) => handleFilter(e)}
+          >
+            <option value="">Todas</option>
+            {accounts?.map((account) => (
+              <option key={account.id} value={account.id}>
+                {account.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <p className="mb-2">Fecha Inicio</p>
+          <input
+            type="date"
+            name="startDate"
+            value={dates.startDate}
+            onChange={(e) => setDates({ ...dates, startDate: e.target.value })}
+            className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
+          />
+        </div>
+
+        <div>
+          <p className="mb-2">Fecha Fin</p>
+          <input
+            type="date"
+            name="endDate"
+            value={dates.endDate}
+            onChange={(e) => setDates({ ...dates, endDate: e.target.value })}
+            className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
+          />
+        </div>
       </div>
       <div className="flex justify-end mb-5 w-[60%]">
         <input
