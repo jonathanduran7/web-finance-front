@@ -1,13 +1,17 @@
 "use client";
 import { Transfer } from "@/app/models/Transfer";
-import { getTransferPaginated } from "@/app/services/api/transfer.api";
+import {
+  deleteTransfer,
+  getTransferPaginated,
+} from "@/app/services/api/transfer.api";
 import Table, { IColumn } from "@/components/ui/table/table";
 import { formatCurrency } from "@/lib/format";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { Edit, MessageSquarePlus, Trash } from "lucide-react";
 import { useState } from "react";
 import ModalFactory from "./modal-transfer-factory";
+import Snackbar from "@/components/ui/snackbar";
 
 const columns: IColumn[] = [
   {
@@ -31,14 +35,26 @@ const columns: IColumn[] = [
 ];
 
 export default function Page() {
+  const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [querySearch, setQuerySearch] = useState("");
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [message, setMessage] = useState("");
   const { data, isError, isLoading } = useQuery({
     queryKey: ["transfers", querySearch],
     queryFn: () =>
       getTransferPaginated({
         search: querySearch,
       }),
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: (id: string) => deleteTransfer(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["transfers", querySearch] });
+      setShowSnackbar(true);
+      setMessage("Transferencia eliminada correctamente");
+    },
   });
 
   const [modal, setModal] = useState<{
@@ -65,7 +81,7 @@ export default function Page() {
     {
       label: "Eliminar",
       onClick: (row: Transfer) => {
-        console.log(row);
+        mutate(String(row.id));
       },
       icons: () => <Trash className="text-red-500" />,
     },
@@ -121,6 +137,14 @@ export default function Page() {
         onClose={() => setModal({ type: "none" })}
         values={modal.values}
       />
+
+      {showSnackbar && (
+        <Snackbar
+          message={message}
+          duration={3000}
+          onClose={() => setShowSnackbar(false)}
+        />
+      )}
     </div>
   );
 }
