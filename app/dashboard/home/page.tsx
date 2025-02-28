@@ -17,7 +17,7 @@ export default function Page() {
   if (!data) return <div>No data</div>;
 
   return (
-    <div className="w-[80%]">
+    <div className="w-[85%]">
       <h1 className="mb-4 text-3xl">Home</h1>
       <div className="flex gap-20 w-full justify-between">
         <div className="flex flex-col justify-between bg-gray-100 p-4 rounded-md">
@@ -39,26 +39,37 @@ export default function Page() {
           </p>
         </div>
       </div>
-      <div className="bg-gray-100 p-4 rounded-md mt-4 w-[200px]">
-        <h2 className="text-xl font-bold mb-2">Categorías</h2>
-        <div className="w-full">
-          {data.categories.map((category) => (
-            <div key={category.category} className="flex justify-between mt-2">
-              <p>{category.category}</p>
-              <p>{formatCurrency(category.total)}</p>
+      <div className="flex mt-5">
+        <div className="w-[70%]"></div>
+        <div className="w-[30%] flex flex-col gap-4">
+          <div className="bg-gray-100 p-4 rounded-md mt-4 w-full">
+            <h2 className="text-xl font-bold mb-2">Categorías</h2>
+            <div className="w-full">
+              {data.categories.map((category) => (
+                <div
+                  key={category.category}
+                  className="flex justify-between mt-2"
+                >
+                  <p>{category.category}</p>
+                  <p>{formatCurrency(category.total)}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-      <div className="bg-gray-100 p-4 rounded-md mt-4">
-        <h2 className="text-xl font-bold mb-2">Cuentas</h2>
-        <div className="w-full">
-          {data.accounts.map((account) => (
-            <div key={account.account} className="flex justify-between mt-2">
-              <p>{account.account}</p>
-              <p>{formatCurrency(account.total)}</p>
+          </div>
+          <div className="bg-gray-100 p-4 rounded-md mt-4 w-full">
+            <h2 className="text-xl font-bold mb-2">Cuentas</h2>
+            <div className="w-full">
+              {data.accounts.map((account) => (
+                <div
+                  key={account.account}
+                  className="flex justify-between mt-2"
+                >
+                  <p>{account.account}</p>
+                  <p>{formatCurrency(account.total)}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>
