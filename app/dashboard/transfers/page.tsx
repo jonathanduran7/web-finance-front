@@ -6,6 +6,7 @@ import { formatCurrency } from "@/lib/format";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { Edit, MessageSquarePlus, Trash } from "lucide-react";
+import { useState } from "react";
 
 const columns: IColumn[] = [
   {
@@ -29,9 +30,14 @@ const columns: IColumn[] = [
 ];
 
 export default function Page() {
+  const [search, setSearch] = useState("");
+  const [querySearch, setQuerySearch] = useState("");
   const { data, isError, isLoading } = useQuery({
-    queryKey: ["transfers"],
-    queryFn: () => getTransferPaginated({}),
+    queryKey: ["transfers", querySearch],
+    queryFn: () =>
+      getTransferPaginated({
+        search: querySearch,
+      }),
   });
 
   if (isLoading) {
@@ -66,6 +72,10 @@ export default function Page() {
     },
   ];
 
+  const handleSearch = () => {
+    setQuerySearch(search);
+  };
+
   return (
     <div>
       <div className="w-[60%]">
@@ -75,6 +85,20 @@ export default function Page() {
           <br /> Puedes filtrar por fecha, monto, cuenta de origen y cuenta de
           destino.
         </p>
+      </div>
+      <div className="flex justify-end mb-5 w-[60%]">
+        <input
+          type="text"
+          placeholder="Buscar por titulo o descripcion"
+          className="w-[400px] p-2 border border-gray-300 rounded-md outline-none"
+          value={search}
+          name="search"
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyUp={(e) => e.key === "Enter" && handleSearch()}
+        />
+        <button className="bg-primary text-white p-2 rounded-md ml-2 w-[110px]">
+          Crear
+        </button>
       </div>
       <div className="w-[60%]">
         {!data?.data.length ? (
