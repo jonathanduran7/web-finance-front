@@ -68,15 +68,15 @@ export default function Page() {
 
   return (
     <div>
-      <div>
+      <div className="w-[60%]">
         <p className="mb-4 text-3xl">Transferencias</p>
-        <p className="mb-4 text-gray-500 text-sm w-[60%]">
+        <p className="mb-4 text-gray-500 text-sm">
           Aquí puedes ver todas las transferencias realizadas en tu cuenta.{" "}
           <br /> Puedes filtrar por fecha, monto, cuenta de origen y cuenta de
           destino.
         </p>
       </div>
-      <div>
+      <div className="w-[60%]">
         {!data?.data.length ? (
           <div className="w-full flex justify-center mt-4 text-center text-sm text-gray-500 italic">
             No hay registros disponibles. <br />
