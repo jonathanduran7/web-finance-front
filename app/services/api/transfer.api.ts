@@ -6,6 +6,11 @@ type TransferCreate = Omit<
   "createdAt" | "updatedAt" | "id" | "sourceAccount" | "destinationAccount"
 >;
 
+type TransferUpdate = Omit<
+  Transfer,
+  "createdAt" | "updatedAt" | "sourceAccount" | "destinationAccount"
+>;
+
 export async function getTransferPaginated({
   page = 1,
   limit = 10,
@@ -83,5 +88,19 @@ export async function createTransfer(data: TransferCreate): Promise<void> {
 
   if (!response.ok) {
     throw new Error("Error creating transaction");
+  }
+}
+
+export async function updateTransfer(data: TransferUpdate): Promise<void> {
+  const response = await fetch(`http://localhost:3333/transfer/${data.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Error updating transaction");
   }
 }
