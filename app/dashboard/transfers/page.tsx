@@ -5,6 +5,7 @@ import Table, { IColumn } from "@/components/ui/table/table";
 import { formatCurrency } from "@/lib/format";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import { Edit, MessageSquarePlus, Trash } from "lucide-react";
 
 const columns: IColumn[] = [
   {
@@ -41,6 +42,30 @@ export default function Page() {
     return <div>Error...</div>;
   }
 
+  const actions = [
+    {
+      label: "Editar",
+      onClick: (row: Transfer) => {
+        console.log(row);
+      },
+      icons: () => <Edit className="text-blue-500" />,
+    },
+    {
+      label: "Eliminar",
+      onClick: (row: Transfer) => {
+        console.log(row);
+      },
+      icons: () => <Trash className="text-red-500" />,
+    },
+    {
+      label: "Ver",
+      onClick: (row: Transfer) => {
+        console.log(row);
+      },
+      icons: () => <MessageSquarePlus className="text-black-500" />,
+    },
+  ];
+
   return (
     <div>
       <div>
@@ -58,7 +83,7 @@ export default function Page() {
             Crea nuevos registros para visualizarlos
           </div>
         ) : (
-          <Table columns={columns} data={data.data} />
+          <Table columns={columns} data={data.data} actions={actions} />
         )}
       </div>
     </div>
