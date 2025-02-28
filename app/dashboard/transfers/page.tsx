@@ -1,6 +1,31 @@
 "use client";
+import { Transfer } from "@/app/models/Transfer";
 import { getTransferPaginated } from "@/app/services/api/transfer.api";
+import Table, { IColumn } from "@/components/ui/table/table";
+import { formatCurrency } from "@/lib/format";
 import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
+
+const columns: IColumn[] = [
+  {
+    name: "updatedAt",
+    label: "Fecha",
+    value: (row: Transfer) => dayjs(row.updatedAt).format("DD/MM"),
+  },
+  {
+    name: "sourceAccount.name",
+    label: "Cuenta de origen",
+  },
+  {
+    name: "destinationAccount.name",
+    label: "Cuenta de destino",
+  },
+  {
+    name: "amount",
+    label: "Importe",
+    value: (row: Transfer) => formatCurrency(row.amount),
+  },
+];
 
 export default function Page() {
   const { data, isError, isLoading } = useQuery({
@@ -27,20 +52,14 @@ export default function Page() {
         </p>
       </div>
       <div>
-        {data?.data.length === 0 && (
+        {!data?.data.length ? (
           <div className="w-full flex justify-center mt-4 text-center text-sm text-gray-500 italic">
             No hay registros disponibles. <br />
             Crea nuevos registros para visualizarlos
           </div>
+        ) : (
+          <Table columns={columns} data={data.data} />
         )}
-        {data?.data.map((transfer) => (
-          <div key={transfer.id}>
-            <div>{transfer.sourceAccount.name}</div>
-            <div>{transfer.destinationAccount.name}</div>
-            <div>{transfer.amount}</div>
-            <div>{transfer.createdAt}</div>
-          </div>
-        ))}
       </div>
     </div>
   );
