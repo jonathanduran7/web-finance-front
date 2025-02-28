@@ -7,7 +7,7 @@ import AccountAccordion from "./account-accordion";
 export default function Page() {
   return (
     <div className="h-full">
-      <h1 className="mb-4 text-3xl">Settings</h1>
+      <h1 className="mb-4 text-3xl">Configuraciones</h1>
       <div className="mb-4 text-gray-500 text-sm w-[60%]">
         <p>
           Configura tus preferencias de la aplicacion. Puedes modificar tus
