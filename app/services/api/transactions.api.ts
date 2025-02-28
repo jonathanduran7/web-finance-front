@@ -42,7 +42,6 @@ export async function getTransactionsPaginated({
     }
   }
 
-  console.log(startDate, endDate);
   if (startDate) {
     baseUrl += `&startDate=${startDate}`;
   }
