@@ -17,24 +17,24 @@ export default function Page() {
   if (!data) return <div>No data</div>;
 
   return (
-    <div>
+    <div className="w-[80%]">
       <h1 className="mb-4 text-3xl">Home</h1>
-      <div className="flex gap-20">
-        <div className="flex flex-col justify-between bg-gray-100 p-4 rounded-md w-[200px]">
+      <div className="flex gap-20 w-full justify-between">
+        <div className="flex flex-col justify-between bg-gray-100 p-4 rounded-md">
           <p className="text-sm italic text-gray-400">Ingresos</p>
-          <p className="mt-2 font-bold text-xl">
+          <p className="mt-2 font-bold text-4xl">
             {formatCurrency(data.balance.income)}
           </p>
         </div>
-        <div className="flex flex-col justify-between bg-gray-100 p-4 rounded-md w-[200px]">
+        <div className="flex flex-col justify-between bg-gray-100 p-4 rounded-md">
           <p className="text-sm italic text-gray-400">Gastos</p>
-          <p className="mt-2 font-bold text-xl">
+          <p className="mt-2 font-bold text-4xl">
             {formatCurrency(data.balance.expense)}
           </p>
         </div>
-        <div className="flex flex-col justify-between bg-gray-100 p-4 rounded-md w-[200px]">
+        <div className="flex flex-col justify-between bg-gray-100 p-4 rounded-md">
           <p className="text-sm italic text-gray-400">Balance</p>
-          <p className="mt-2 font-bold text-xl">
+          <p className="mt-2 font-bold text-4xl">
             {formatCurrency(data.balance.total)}
           </p>
         </div>
@@ -50,15 +50,16 @@ export default function Page() {
           ))}
         </div>
       </div>
-      <div>
-        <h2>Cuentas</h2>
-        <ul>
+      <div className="bg-gray-100 p-4 rounded-md mt-4">
+        <h2 className="text-xl font-bold mb-2">Cuentas</h2>
+        <div className="w-full">
           {data.accounts.map((account) => (
-            <li key={account.account}>
-              {account.account}: {account.total}
-            </li>
+            <div key={account.account} className="flex justify-between mt-2">
+              <p>{account.account}</p>
+              <p>{formatCurrency(account.total)}</p>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );
