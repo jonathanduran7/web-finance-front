@@ -19,7 +19,7 @@ import { Category } from "@/app/models/Category";
 import { getCategories } from "@/app/services/api/category.api";
 import Snackbar from "@/components/ui/snackbar";
 
-const columns: IColumn[] = [
+export const columns: IColumn[] = [
   {
     name: "createdAt",
     label: "Fecha",

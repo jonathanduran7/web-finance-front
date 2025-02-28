@@ -16,7 +16,7 @@ import FooterTable from "./footer-table";
 import { Account } from "@/app/models/Accounts";
 import { getAccount } from "@/app/services/api/account.api";
 
-const columns: IColumn[] = [
+export const columns: IColumn[] = [
   {
     name: "updatedAt",
     label: "Fecha",
