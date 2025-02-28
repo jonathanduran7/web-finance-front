@@ -27,6 +27,12 @@ export default function Page() {
         </p>
       </div>
       <div>
+        {data?.data.length === 0 && (
+          <div className="w-full flex justify-center mt-4 text-center text-sm text-gray-500 italic">
+            No hay registros disponibles. <br />
+            Crea nuevos registros para visualizarlos
+          </div>
+        )}
         {data?.data.map((transfer) => (
           <div key={transfer.id}>
             <div>{transfer.sourceAccount.name}</div>
