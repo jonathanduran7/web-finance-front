@@ -78,20 +78,22 @@ export default function Page() {
           )}
         </div>
         <div className="w-[30%] flex flex-col gap-4">
-          <div className="bg-gray-100 p-4 rounded-md mt-4 w-full">
-            <h2 className="text-xl font-bold mb-2">Categorías</h2>
-            <div className="w-full">
-              {data.categories.map((category) => (
-                <div
-                  key={category.category}
-                  className="flex justify-between mt-2"
-                >
-                  <p>{category.category}</p>
-                  <p>{formatCurrency(category.total)}</p>
-                </div>
-              ))}
+          {data.categories.length ? (
+            <div className="bg-gray-100 p-4 rounded-md mt-4 w-full">
+              <h2 className="text-xl font-bold mb-2">Categorías</h2>
+              <div className="w-full">
+                {data.categories.map((category) => (
+                  <div
+                    key={category.category}
+                    className="flex justify-between mt-2"
+                  >
+                    <p>{category.category}</p>
+                    <p>{formatCurrency(category.total)}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : null}
           <div className="bg-gray-100 p-4 rounded-md mt-4 w-full">
             <h2 className="text-xl font-bold mb-2">Cuentas</h2>
             <div className="w-full">
