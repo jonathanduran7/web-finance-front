@@ -124,7 +124,7 @@ export default function CreateTransferModal({
                   thousandSeparator="."
                   decimalSeparator=","
                   prefix="$"
-                  allowNegative={true}
+                  allowNegative={false}
                   decimalScale={2}
                   fixedDecimalScale
                   placeholder="$0.00"
