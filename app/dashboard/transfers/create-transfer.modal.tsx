@@ -1,3 +1,4 @@
+import { useSnackbar } from "@/app/context/snackbar.context";
 import { Account } from "@/app/models/Accounts";
 import { getAccount } from "@/app/services/api/account.api";
 import { createTransfer } from "@/app/services/api/transfer.api";
@@ -23,6 +24,7 @@ export default function CreateTransferModal({
   isModalOpen,
   setIsModalOpen,
 }: Props) {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
 
   const {
@@ -47,6 +49,9 @@ export default function CreateTransferModal({
       queryClient.refetchQueries({ queryKey: ["transfers"] });
       setIsModalOpen(false);
     },
+    onError: () => {
+      openSnackbar("Ocurrio un error al crear la transferencia", "error");
+    },
   });
 
   const onSubmit = (data: Inputs) => {
@@ -64,6 +69,7 @@ export default function CreateTransferModal({
     };
 
     mutate(formattedData);
+    openSnackbar("Transferencia creada", "success");
   };
 
   return (
