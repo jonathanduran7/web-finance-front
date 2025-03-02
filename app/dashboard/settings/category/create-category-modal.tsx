@@ -1,5 +1,6 @@
 "use client";
 
+import { useSnackbar } from "@/app/context/snackbar.context";
 import { createCategory } from "@/app/services/api/category.api";
 import Modal from "@/components/ui/modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -14,6 +15,7 @@ export default function CategoryModal({
   isModalOpen,
   setIsModalOpen,
 }: CurrencyModalProps) {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const [category, setCategory] = useState("");
 
@@ -21,6 +23,10 @@ export default function CategoryModal({
     mutationFn: createCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+      openSnackbar("Categoria creada", "success");
+    },
+    onError: () => {
+      openSnackbar("Ocurrio un error al crear la categoria", "error");
     },
   });
 
