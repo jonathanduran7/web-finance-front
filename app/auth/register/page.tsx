@@ -15,11 +15,12 @@ export default function Page() {
     register,
     handleSubmit,
     formState: { isValid },
+    getValues,
   } = useForm<Inputs>();
 
   return (
     <div className="flex flex-col items-center justify-center w-[400px] bg-gray-100 p-4 rounded-lg">
-      <h1 className="text-2xl font-bold">Register</h1>
+      <h1 className="text-2xl font-bold">Apertura de cuenta</h1>
       <form
         onSubmit={handleSubmit((data) => console.log(data))}
         className="mt-4 w-full"
@@ -48,7 +49,11 @@ export default function Page() {
             type="password"
             placeholder="Confirm Password"
             className="w-full border border-gray-300 rounded px-4 py-2 mt-2 outline-none"
-            {...register("confirmPassword", { required: true, minLength: 8 })}
+            {...register("confirmPassword", {
+              required: true,
+              minLength: 8,
+              validate: (value) => value === getValues("password"),
+            })}
           />
         </div>
         <button
@@ -56,7 +61,7 @@ export default function Page() {
           type="submit"
           disabled={!isValid}
         >
-          Submit
+          Registrarme
         </button>
 
         <div className="flex flex-col items-center justify-center w-[400px] bg-gray-100 p-4 rounded-lg text-primary">
