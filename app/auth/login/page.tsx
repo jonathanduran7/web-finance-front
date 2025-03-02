@@ -47,7 +47,7 @@ export default function Page() {
           type="submit"
           disabled={!isValid}
         >
-          Submit
+          Entrar
         </button>
 
         <div className="flex flex-col items-center justify-center w-[400px] bg-gray-100 p-4 rounded-lg text-primary">
