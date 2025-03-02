@@ -11,10 +11,10 @@ import dayjs from "dayjs";
 import { Edit, MessageSquarePlus, Trash } from "lucide-react";
 import { useState } from "react";
 import ModalFactory from "./modal-transfer-factory";
-import Snackbar from "@/components/ui/snackbar/snackbar";
 import FooterTable from "./footer-table";
 import { Account } from "@/app/models/Accounts";
 import { getAccount } from "@/app/services/api/account.api";
+import { useSnackbar } from "@/app/context/snackbar.context";
 
 export const columns: IColumn[] = [
   {
@@ -38,11 +38,10 @@ export const columns: IColumn[] = [
 ];
 
 export default function Page() {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [querySearch, setQuerySearch] = useState("");
-  const [showSnackbar, setShowSnackbar] = useState(false);
-  const [message, setMessage] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [filters, setFilters] = useState<Record<string, string>>({
@@ -76,8 +75,6 @@ export default function Page() {
     mutationFn: (id: string) => deleteTransfer(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transfers", querySearch] });
-      setShowSnackbar(true);
-      setMessage("Transferencia eliminada correctamente");
     },
   });
 
@@ -106,6 +103,7 @@ export default function Page() {
       label: "Eliminar",
       onClick: (row: Transfer) => {
         mutate(String(row.id));
+        openSnackbar("Transferencia eliminada", "success");
       },
       icons: () => <Trash className="text-red-500" />,
     },
@@ -232,14 +230,6 @@ export default function Page() {
         onClose={() => setModal({ type: "none" })}
         values={modal.values}
       />
-
-      {showSnackbar && (
-        <Snackbar
-          message={message}
-          duration={3000}
-          onClose={() => setShowSnackbar(false)}
-        />
-      )}
     </div>
   );
 }
