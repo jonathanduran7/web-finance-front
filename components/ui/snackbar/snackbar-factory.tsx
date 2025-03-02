@@ -1,3 +1,4 @@
+import { SnackbarType } from "@/app/context/snackbar.context";
 import Snackbar from "./snackbar";
 import SnackbarError from "./snackbar-error";
 
@@ -5,10 +6,10 @@ interface SnackbarProps {
   message: string;
   duration?: number;
   onClose: () => void;
-  type: "success" | "error";
+  type: SnackbarType;
 }
 
-export default function snackbarFactory({
+export default function SnackbarFactory({
   message,
   duration = 3000,
   onClose,
