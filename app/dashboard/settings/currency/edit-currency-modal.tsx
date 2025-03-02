@@ -1,5 +1,6 @@
 "use client";
 
+import { useSnackbar } from "@/app/context/snackbar.context";
 import { updateCurrency } from "@/app/services/api/currency.api";
 import Modal from "@/components/ui/modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -19,6 +20,7 @@ export default function CurrencyUpdateModal({
   setIsModalOpen,
   values,
 }: CurrencyModalProps) {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const [currency, setCurrency] = useState(values.currency);
 
@@ -32,6 +34,10 @@ export default function CurrencyUpdateModal({
     mutationFn: updateCurrency,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["currencies"] });
+      openSnackbar("Moneda actualizada", "success");
+    },
+    onError: () => {
+      openSnackbar("Ocurrio un error al actualizar la moneda", "error");
     },
   });
 
