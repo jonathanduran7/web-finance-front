@@ -1,5 +1,6 @@
 "use client";
 
+import { useSnackbar } from "@/app/context/snackbar.context";
 import { updateCategory } from "@/app/services/api/category.api";
 import Modal from "@/components/ui/modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -19,6 +20,7 @@ export default function CategoryUpdateModal({
   setIsModalOpen,
   values,
 }: CategoryModalProps) {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const [category, setCategory] = useState(values.category);
 
@@ -32,6 +34,10 @@ export default function CategoryUpdateModal({
     mutationFn: updateCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+      openSnackbar("Categoria actualizada", "success");
+    },
+    onError: () => {
+      openSnackbar("Ocurrio un error al actualizar la categoria", "error");
     },
   });
 
