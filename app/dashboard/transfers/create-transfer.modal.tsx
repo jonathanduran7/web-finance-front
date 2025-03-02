@@ -30,7 +30,11 @@ export default function CreateTransferModal({
     handleSubmit,
     control,
     formState: { errors, isValid },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({
+    defaultValues: {
+      date: new Date().toISOString().split("T")[0],
+    },
+  });
 
   const { data: accounts } = useQuery<Account[]>({
     queryKey: ["accounts"],

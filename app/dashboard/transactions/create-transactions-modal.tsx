@@ -33,7 +33,11 @@ export default function TransactionsModal({
     handleSubmit,
     control,
     formState: { errors, isValid },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({
+    defaultValues: {
+      date: new Date().toISOString().split("T")[0],
+    },
+  });
 
   const onSubmit = (data: Inputs) => {
     const formattedData = {
