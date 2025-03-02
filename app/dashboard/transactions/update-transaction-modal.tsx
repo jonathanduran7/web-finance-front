@@ -1,3 +1,4 @@
+import { useSnackbar } from "@/app/context/snackbar.context";
 import { Account } from "@/app/models/Accounts";
 import { Category } from "@/app/models/Category";
 import { Transaction } from "@/app/models/Transaction";
@@ -30,6 +31,7 @@ export default function UpdateTransactionModal({
   setIsModalOpen,
   values,
 }: Props) {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const {
     register,
@@ -62,6 +64,7 @@ export default function UpdateTransactionModal({
     };
     mutate({ id: values.id, ...formattedData });
     setIsModalOpen(false);
+    openSnackbar("Transacción editada", "success");
   };
 
   const { data: accounts } = useQuery<Account[]>({
@@ -80,6 +83,9 @@ export default function UpdateTransactionModal({
       queryClient.invalidateQueries({
         queryKey: ["transactions", ""],
       });
+    },
+    onError: () => {
+      openSnackbar("Ocurrió un error", "error");
     },
   });
 
