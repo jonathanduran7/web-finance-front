@@ -1,4 +1,5 @@
 "use client";
+import { useSnackbar } from "@/app/context/snackbar.context";
 import { Account } from "@/app/models/Accounts";
 import { Category } from "@/app/models/Category";
 import { getAccount } from "@/app/services/api/account.api";
@@ -27,6 +28,7 @@ export default function TransactionsModal({
   isModalOpen,
   setIsModalOpen,
 }: Props) {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const {
     register,
@@ -55,6 +57,7 @@ export default function TransactionsModal({
 
     mutate(formattedData);
     setIsModalOpen(false);
+    openSnackbar("Transacción creada", "success");
   };
 
   const { data: accounts } = useQuery<Account[]>({
@@ -71,6 +74,9 @@ export default function TransactionsModal({
     mutationFn: createTransaction,
     onSuccess: () => {
       queryClient.refetchQueries({ queryKey: ["transactions"], exact: false });
+    },
+    onError: () => {
+      openSnackbar("No se pudo guardar el registro correctamente", "error");
     },
   });
 
