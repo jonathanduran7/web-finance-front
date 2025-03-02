@@ -1,5 +1,6 @@
 "use client";
 
+import { useSnackbar } from "@/app/context/snackbar.context";
 import { Currency } from "@/app/models/Currency";
 import { updateAccount } from "@/app/services/api/account.api";
 import { getCurrencies } from "@/app/services/api/currency.api";
@@ -23,6 +24,7 @@ export default function AccountEditModal({
   setIsModalOpen,
   values,
 }: AccountModalProps) {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const [account, setAccount] = useState({
     name: values?.name ?? "",
@@ -48,6 +50,10 @@ export default function AccountEditModal({
     mutationFn: updateAccount,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["accounts"] });
+      openSnackbar("Cuenta actualizada", "success");
+    },
+    onError: () => {
+      openSnackbar("Ocurrio un error al actualizar la cuenta", "error");
     },
   });
 
