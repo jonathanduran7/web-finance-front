@@ -4,8 +4,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash } from "lucide-react";
 import { useState } from "react";
 import ModalFactory from "./category/modal-category-factory";
+import { useSnackbar } from "@/app/context/snackbar.context";
 
 export default function CategoryAccordion() {
+  const { openSnackbar } = useSnackbar();
   const query = useQueryClient();
   const [modal, setModal] = useState<{
     type: "create" | "edit" | "none";
@@ -19,6 +21,10 @@ export default function CategoryAccordion() {
     mutationFn: removeCategory,
     onSuccess: () => {
       query.invalidateQueries({ queryKey: ["categories"] });
+      openSnackbar("Categoria eliminada", "success");
+    },
+    onError: () => {
+      openSnackbar("Ocurrio un error al eliminar la categoria", "error");
     },
   });
 
