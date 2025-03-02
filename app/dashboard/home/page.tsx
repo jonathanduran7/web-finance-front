@@ -68,14 +68,16 @@ export default function Page() {
             </div>
           )}
 
-          {transfers && (
-            <div className="mt-10">
-              <h2 className="text-xl font-bold mb-2 mt-4">
-                Últimas transferencias
-              </h2>
-              <Table columns={columnsTransfer} data={transfers?.data} />
-            </div>
-          )}
+          <div className="mt-10">
+            <h2 className="text-xl font-bold mb-2 mt-4">
+              Últimas transferencias
+            </h2>
+            {transfers && transfers.data.length ? (
+              <Table columns={columnsTransfer} data={transfers.data} />
+            ) : (
+              <p>No hay transferencias</p>
+            )}
+          </div>
         </div>
         <div className="w-[30%] flex flex-col gap-4">
           {data.categories.length ? (
