@@ -1,5 +1,6 @@
 "use client";
 
+import { useSnackbar } from "@/app/context/snackbar.context";
 import { Currency } from "@/app/models/Currency";
 import { createAccount } from "@/app/services/api/account.api";
 import { getCurrencies } from "@/app/services/api/currency.api";
@@ -16,6 +17,7 @@ export default function AccountModal({
   isModalOpen,
   setIsModalOpen,
 }: AccountModalProps) {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const [account, setAccount] = useState({
     name: "",
@@ -31,6 +33,10 @@ export default function AccountModal({
     mutationFn: createAccount,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["accounts"] });
+      openSnackbar("Cuenta creada", "success");
+    },
+    onError: () => {
+      openSnackbar("Ocurrio un error al crear la cuenta", "error");
     },
   });
 
