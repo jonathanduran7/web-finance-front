@@ -5,8 +5,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash } from "lucide-react";
 import { useState } from "react";
 import ModalFactory from "./currency/modal-currency-factory";
+import { useSnackbar } from "@/app/context/snackbar.context";
 
 export default function CurrencyAccordion() {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const [modal, setModal] = useState<{
     type: "create" | "edit" | "none";
@@ -21,6 +23,10 @@ export default function CurrencyAccordion() {
     mutationFn: (id: string) => removeCurrency(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["currencies"] });
+      openSnackbar("Moneda eliminada", "success");
+    },
+    onError: () => {
+      openSnackbar("Ocurrio un error al eliminar la moneda", "error");
     },
   });
 
