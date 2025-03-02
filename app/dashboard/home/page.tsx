@@ -13,8 +13,10 @@ import { columns as columnsTransaction } from "../transactions/page";
 import { columns as columnsTransfer } from "../transfers/page";
 import { getTransferPaginated } from "@/app/services/api/transfer.api";
 import { Transfer } from "@/app/models/Transfer";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const { push } = useRouter();
   const { data, isError, isLoading } = useQuery<Dashboard>({
     queryKey: ["dashboard"],
     queryFn: () => getDashboard(),
@@ -65,6 +67,14 @@ export default function Page() {
             <div>
               <h2 className="text-xl font-bold mb-2">Últimos movimientos</h2>
               <Table columns={columnsTransaction} data={transactions?.data} />
+              <div>
+                <p
+                  className="text-primary text-center mt-4 cursor-pointer"
+                  onClick={() => push("/dashboard/transactions")}
+                >
+                  Ver más
+                </p>
+              </div>
             </div>
           )}
 
@@ -73,7 +83,17 @@ export default function Page() {
               Últimas transferencias
             </h2>
             {transfers && transfers.data.length ? (
-              <Table columns={columnsTransfer} data={transfers.data} />
+              <div>
+                <Table columns={columnsTransfer} data={transfers.data} />
+                <div>
+                  <p
+                    onClick={() => push("/dashboard/transfers")}
+                    className="text-primary text-center mt-4 cursor-pointer"
+                  >
+                    Ver más
+                  </p>
+                </div>
+              </div>
             ) : (
               <p>No hay transferencias</p>
             )}
