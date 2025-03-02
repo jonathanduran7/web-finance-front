@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 type Inputs = {
@@ -7,6 +8,8 @@ type Inputs = {
 };
 
 export default function Page() {
+  const { push } = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -46,6 +49,12 @@ export default function Page() {
         >
           Submit
         </button>
+
+        <div className="flex flex-col items-center justify-center w-[400px] bg-gray-100 p-4 rounded-lg text-primary">
+          <p className="cursor-pointer" onClick={() => push("/auth/register")}>
+            No tengo una cuenta
+          </p>
+        </div>
       </form>
     </div>
   );
