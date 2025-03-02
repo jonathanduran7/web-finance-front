@@ -1,3 +1,4 @@
+import { useSnackbar } from "@/app/context/snackbar.context";
 import { Account } from "@/app/models/Accounts";
 import { Transfer } from "@/app/models/Transfer";
 import { getAccount } from "@/app/services/api/account.api";
@@ -27,6 +28,7 @@ export default function UpdateTransferModal({
   values,
   setIsModalOpen,
 }: Props) {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
 
   const {
@@ -49,6 +51,10 @@ export default function UpdateTransferModal({
     onSuccess: () => {
       queryClient.refetchQueries({ queryKey: ["transfers"] });
       setIsModalOpen(false);
+      openSnackbar("Transferencia actualizada", "success");
+    },
+    onError: () => {
+      openSnackbar("Ocurrio un error al actualizar la transferencia", "error");
     },
   });
 
