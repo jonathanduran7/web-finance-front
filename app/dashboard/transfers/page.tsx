@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import { Edit, MessageSquarePlus, Trash } from "lucide-react";
 import { useState } from "react";
 import ModalFactory from "./modal-transfer-factory";
-import Snackbar from "@/components/ui/snackbar";
+import Snackbar from "@/components/ui/snackbar/snackbar";
 import FooterTable from "./footer-table";
 import { Account } from "@/app/models/Accounts";
 import { getAccount } from "@/app/services/api/account.api";

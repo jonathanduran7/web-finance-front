@@ -17,7 +17,7 @@ import { Account } from "@/app/models/Accounts";
 import { getAccount } from "@/app/services/api/account.api";
 import { Category } from "@/app/models/Category";
 import { getCategories } from "@/app/services/api/category.api";
-import Snackbar from "@/components/ui/snackbar";
+import Snackbar from "@/components/ui/snackbar/snackbar-factory";
 
 export const columns: IColumn[] = [
   {
@@ -51,6 +51,9 @@ export default function Page() {
   });
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [message, setMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">(
+    "success",
+  );
 
   const {
     data: response,
@@ -122,8 +125,9 @@ export default function Page() {
       label: "Eliminar",
       onClick: (row: Transaction) => {
         mutate(String(row.id));
-        setShowSnackbar(true);
+        setSnackbarType("error");
         setMessage("Movimiento eliminado correctamente");
+        setShowSnackbar(true);
       },
       icons: () => <Trash className="text-red-500" />,
     },
@@ -259,6 +263,7 @@ export default function Page() {
           message={message}
           duration={3000}
           onClose={() => setShowSnackbar(false)}
+          type={snackbarType}
         />
       )}
     </div>

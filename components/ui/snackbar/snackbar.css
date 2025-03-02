@@ -1,0 +1,38 @@
+.snackbar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    background-color: #4caf50;
+    color: #fff;
+    padding: 16px;
+    border-radius: 4px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .snackbarError {
+    background-color: #d32f2f;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    color: #fff;
+    padding: 16px;
+    border-radius: 4px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .snackbar.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .snackbarError.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  
