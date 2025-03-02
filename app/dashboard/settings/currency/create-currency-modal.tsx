@@ -1,5 +1,6 @@
 "use client";
 
+import { useSnackbar } from "@/app/context/snackbar.context";
 import { createCurrency } from "@/app/services/api/currency.api";
 import Modal from "@/components/ui/modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -14,6 +15,7 @@ export default function CurrencyModal({
   isModalOpen,
   setIsModalOpen,
 }: CurrencyModalProps) {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const [currency, setCurrency] = useState("");
 
@@ -21,6 +23,10 @@ export default function CurrencyModal({
     mutationFn: (currencyName: string) => createCurrency(currencyName),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["currencies"] });
+      openSnackbar("Moneda creada", "success");
+    },
+    onError: () => {
+      openSnackbar("Ocurrio un error al crear la moneda", "error");
     },
   });
 
