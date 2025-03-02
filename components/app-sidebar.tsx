@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface SidebarItem {
@@ -39,6 +39,7 @@ const initialItems: SidebarItem[] = [
 
 export function AppSidebar() {
   const { push } = useRouter();
+  const pathname = usePathname();
   const [items, setItems] = useState<SidebarItem[]>(initialItems);
 
   const handleItemClick = (url: string) => {
@@ -60,7 +61,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={item.isActive}>
+                  <SidebarMenuButton asChild isActive={pathname === item.url}>
                     <div
                       onClick={() => handleItemClick(item.url)}
                       className="cursor-pointer"
