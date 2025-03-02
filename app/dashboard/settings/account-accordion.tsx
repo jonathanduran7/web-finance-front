@@ -4,8 +4,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash } from "lucide-react";
 import ModalFactory from "./account/modal-account-factory";
 import { useState } from "react";
+import { useSnackbar } from "@/app/context/snackbar.context";
 
 export default function AccountAccordion() {
+  const { openSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const { data, isLoading, isError } = useQuery<Account[]>({
     queryKey: ["accounts"],
@@ -16,6 +18,7 @@ export default function AccountAccordion() {
     mutationFn: removeAccount,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["accounts"] });
+      openSnackbar("Cuenta eliminada", "success");
     },
   });
   const [modal, setModal] = useState<{
