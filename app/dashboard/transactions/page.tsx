@@ -17,7 +17,7 @@ import { Account } from "@/app/models/Accounts";
 import { getAccount } from "@/app/services/api/account.api";
 import { Category } from "@/app/models/Category";
 import { getCategories } from "@/app/services/api/category.api";
-import Snackbar from "@/components/ui/snackbar/snackbar-factory";
+import { useSnackbar } from "@/app/context/snackbar.context";
 
 export const columns: IColumn[] = [
   {
@@ -49,11 +49,8 @@ export default function Page() {
     startDate: "",
     endDate: "",
   });
-  const [showSnackbar, setShowSnackbar] = useState(false);
-  const [message, setMessage] = useState("");
-  const [snackbarType, setSnackbarType] = useState<"success" | "error">(
-    "success",
-  );
+
+  const { openSnackbar } = useSnackbar();
 
   const {
     data: response,
@@ -110,7 +107,6 @@ export default function Page() {
 
   const handleSearch = () => {
     setQuerySearch(search);
-    setShowSnackbar(true);
   };
 
   const actions = [
@@ -125,9 +121,7 @@ export default function Page() {
       label: "Eliminar",
       onClick: (row: Transaction) => {
         mutate(String(row.id));
-        setSnackbarType("error");
-        setMessage("Movimiento eliminado correctamente");
-        setShowSnackbar(true);
+        openSnackbar("Movimiento eliminado correctamente", "info");
       },
       icons: () => <Trash className="text-red-500" />,
     },
@@ -258,14 +252,6 @@ export default function Page() {
         values={modal.values}
         onClose={() => setModal({ type: "none" })}
       />
-      {showSnackbar && (
-        <Snackbar
-          message={message}
-          duration={3000}
-          onClose={() => setShowSnackbar(false)}
-          type={snackbarType}
-        />
-      )}
     </div>
   );
 }
