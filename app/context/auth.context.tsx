@@ -50,7 +50,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = () => {
-    console.log("logout");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setIsAuthenticated(false);
+    setUser({
+      email: "",
+      id: 0,
+    });
+    push("/auth/login");
   };
 
   const handleRegister = (

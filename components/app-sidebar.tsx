@@ -1,6 +1,8 @@
+import { useAuth } from "@/app/context/auth.context";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -39,6 +41,7 @@ const initialItems: SidebarItem[] = [
 
 export function AppSidebar() {
   const { push } = useRouter();
+  const { logout } = useAuth();
   const pathname = usePathname();
   const [items, setItems] = useState<SidebarItem[]>(initialItems);
 
@@ -75,6 +78,17 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <button
+          className="text-primary bg-white rounded p-2"
+          onClick={() => logout()}
+        >
+          Cerrar sesión
+        </button>
+        <div className="flex justify-center items-center">
+          <p className="text-sm text-gray-500">© 2025 Money Tracker</p>
+        </div>
+      </SidebarFooter>
     </Sidebar>
   );
 }
