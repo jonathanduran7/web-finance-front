@@ -1,11 +1,15 @@
 import { createContext, useContext, useState } from "react";
-import { login } from "../services/api/auth.api";
+import { login, register } from "../services/api/auth.api";
 import { useRouter } from "next/navigation";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
   handleLogin: (email: string, password: string) => void;
-  handleRegister: (email: string, password: string) => void;
+  handleRegister: (
+    email: string,
+    password: string,
+    confirmaPassword: string,
+  ) => void;
   logout: () => void;
   user: {
     email: string;
@@ -49,8 +53,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     console.log("logout");
   };
 
-  const handleRegister = (email: string, password: string) => {
-    console.log(email, password);
+  const handleRegister = (
+    email: string,
+    password: string,
+    confirmaPassword: string,
+  ) => {
+    register(email, password, confirmaPassword);
+    push("/auth/login");
   };
 
   const decryptToken = (token: string) => {
