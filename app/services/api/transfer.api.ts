@@ -28,6 +28,7 @@ export async function getTransferPaginated({
   startDate?: string;
   endDate?: string;
 }): Promise<PaginatedResponse<Transfer>> {
+  const token = JSON.parse(localStorage.getItem("token")!);
   let baseUrl = `http://localhost:3333/transfer/query?page=${page}&limit=${limit}&order=${orderBy}`;
 
   if (search) {
@@ -59,7 +60,11 @@ export async function getTransferPaginated({
     baseUrl += `&endDate=${endDate}`;
   }
 
-  const response = await fetch(baseUrl);
+  const response = await fetch(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token!.access_token}`,
+    },
+  });
 
   if (!response.ok) {
     throw new Error("Error fetching transactions");
@@ -68,8 +73,12 @@ export async function getTransferPaginated({
 }
 
 export async function deleteTransfer(id: string): Promise<void> {
+  const token = JSON.parse(localStorage.getItem("token")!);
   const response = await fetch(`http://localhost:3333/transfer/${id}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token!.access}`,
+    },
   });
 
   if (!response.ok) {
@@ -78,10 +87,13 @@ export async function deleteTransfer(id: string): Promise<void> {
 }
 
 export async function createTransfer(data: TransferCreate): Promise<void> {
+  const token = JSON.parse(localStorage.getItem("token")!);
+
   const response = await fetch("http://localhost:3333/transfer", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token!.access_token}`,
     },
     body: JSON.stringify(data),
   });
@@ -92,10 +104,13 @@ export async function createTransfer(data: TransferCreate): Promise<void> {
 }
 
 export async function updateTransfer(data: TransferUpdate): Promise<void> {
+  const token = JSON.parse(localStorage.getItem("token")!);
+
   const response = await fetch(`http://localhost:3333/transfer/${data.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token!.access_token}`,
     },
     body: JSON.stringify(data),
   });

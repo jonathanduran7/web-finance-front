@@ -20,6 +20,7 @@ export async function getTransactionsPaginated({
   startDate?: string;
   endDate?: string;
 }): Promise<PaginatedResponse<Transaction>> {
+  const token = JSON.parse(localStorage.getItem("token")!);
   let baseUrl = `http://localhost:3333/transaction/query?page=${page}&limit=${limit}&order=${orderBy}`;
 
   if (search) {
@@ -51,7 +52,11 @@ export async function getTransactionsPaginated({
     baseUrl += `&endDate=${endDate}`;
   }
 
-  const response = await fetch(baseUrl);
+  const response = await fetch(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${token!.access_token}`,
+    },
+  });
 
   if (!response.ok) {
     throw new Error("Error fetching transactions");
@@ -67,10 +72,12 @@ export async function createTransaction(transaction: {
   accountId: number;
   categoryId: number;
 }) {
+  const token = JSON.parse(localStorage.getItem("token")!);
   const response = await fetch("http://localhost:3333/transaction", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token!.access_token}`,
     },
     body: JSON.stringify({
       title: transaction.title,
@@ -88,8 +95,12 @@ export async function createTransaction(transaction: {
 }
 
 export async function deleteTransaction(id: string) {
+  const token = JSON.parse(localStorage.getItem("token")!);
   const response = await fetch(`http://localhost:3333/transaction/${id}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token!.access_token}`,
+    },
   });
 
   if (!response.ok) {
@@ -106,12 +117,14 @@ export async function updateTransaction(transaction: {
   categoryId: number;
   date: string;
 }) {
+  const token = JSON.parse(localStorage.getItem("token")!);
   const response = await fetch(
     `http://localhost:3333/transaction/${transaction.id}`,
     {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token!.access_token}`,
       },
       body: JSON.stringify({
         title: transaction.title,
@@ -131,9 +144,15 @@ export async function updateTransaction(transaction: {
 export async function getDashboard(): Promise<Dashboard> {
   const startDate = dayjs().startOf("month").format("YYYY-MM-DD");
   const endDate = dayjs().endOf("month").format("YYYY-MM-DD");
+  const token = JSON.parse(localStorage.getItem("token")!);
 
   const response = await fetch(
     `http://localhost:3333/transaction/dashboard?startDate=${startDate}&endDate=${endDate}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token!.access_token}`,
+      },
+    },
   );
 
   if (!response.ok) {
