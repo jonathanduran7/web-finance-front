@@ -4,8 +4,9 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import { SnackbarProvider } from "../context/snackbar.context";
+import withAuth from "../components/withAuth";
 
-export default function DashboardLayout({
+function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -24,3 +25,5 @@ export default function DashboardLayout({
     </ReactQueryProvider>
   );
 }
+
+export default withAuth(DashboardLayout);
