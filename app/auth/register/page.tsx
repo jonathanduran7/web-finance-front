@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "@/app/context/auth.context";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -9,6 +10,7 @@ type Inputs = {
 };
 
 export default function Page() {
+  const { handleRegister } = useAuth();
   const { push } = useRouter();
 
   const {
@@ -18,11 +20,15 @@ export default function Page() {
     getValues,
   } = useForm<Inputs>();
 
+  const onSubmit = (data: Inputs) => {
+    handleRegister(data.email, data.password, data.confirmPassword);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center w-[400px] bg-gray-100 p-4 rounded-lg">
       <h1 className="text-2xl font-bold">Apertura de cuenta</h1>
       <form
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit((data) => onSubmit(data))}
         className="mt-4 w-full"
       >
         <div className="w-full mt-2">
