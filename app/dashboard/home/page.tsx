@@ -116,20 +116,22 @@ export default function Page() {
               </div>
             </div>
           ) : null}
-          <div className="bg-gray-100 p-4 rounded-md mt-4 w-full">
-            <h2 className="text-xl font-bold mb-2">Cuentas</h2>
-            <div className="w-full">
-              {data.accounts.map((account) => (
-                <div
-                  key={account.account}
-                  className="flex justify-between mt-2"
-                >
-                  <p>{account.account}</p>
-                  <p>{formatCurrency(account.total)}</p>
-                </div>
-              ))}
+          {data.accounts.length ? (
+            <div className="bg-gray-100 p-4 rounded-md mt-4 w-full">
+              <h2 className="text-xl font-bold mb-2">Cuentas</h2>
+              <div className="w-full">
+                {data.accounts.map((account) => (
+                  <div
+                    key={account.account}
+                    className="flex justify-between mt-2"
+                  >
+                    <p>{account.account}</p>
+                    <p>{formatCurrency(account.total)}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </div>
     </div>
