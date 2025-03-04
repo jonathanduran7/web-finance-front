@@ -11,6 +11,8 @@ type TransferUpdate = Omit<
   "createdAt" | "updatedAt" | "sourceAccount" | "destinationAccount"
 >;
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export async function getTransferPaginated({
   page = 1,
   limit = 10,
@@ -29,7 +31,7 @@ export async function getTransferPaginated({
   endDate?: string;
 }): Promise<PaginatedResponse<Transfer>> {
   const token = JSON.parse(localStorage.getItem("token")!);
-  let baseUrl = `http://localhost:3333/transfer/query?page=${page}&limit=${limit}&order=${orderBy}`;
+  let baseUrl = `${apiUrl}/transfer/query?page=${page}&limit=${limit}&order=${orderBy}`;
 
   if (search) {
     baseUrl += `&search=${search}`;
@@ -74,7 +76,7 @@ export async function getTransferPaginated({
 
 export async function deleteTransfer(id: string): Promise<void> {
   const token = JSON.parse(localStorage.getItem("token")!);
-  const response = await fetch(`http://localhost:3333/transfer/${id}`, {
+  const response = await fetch(`${apiUrl}/transfer/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token!.access}`,
@@ -89,7 +91,7 @@ export async function deleteTransfer(id: string): Promise<void> {
 export async function createTransfer(data: TransferCreate): Promise<void> {
   const token = JSON.parse(localStorage.getItem("token")!);
 
-  const response = await fetch("http://localhost:3333/transfer", {
+  const response = await fetch(`${apiUrl}/transfer`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -106,7 +108,7 @@ export async function createTransfer(data: TransferCreate): Promise<void> {
 export async function updateTransfer(data: TransferUpdate): Promise<void> {
   const token = JSON.parse(localStorage.getItem("token")!);
 
-  const response = await fetch(`http://localhost:3333/transfer/${data.id}`, {
+  const response = await fetch(`${apiUrl}/transfer/${data.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

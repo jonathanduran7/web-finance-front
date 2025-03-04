@@ -1,8 +1,10 @@
 import { Account } from "@/app/models/Accounts";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export async function getAccount(): Promise<Account[]> {
   const token = JSON.parse(localStorage.getItem("token")!);
-  const response = await fetch("http://localhost:3333/account", {
+  const response = await fetch(`${apiUrl}/account`, {
     headers: {
       Authorization: `Bearer ${token!.access_token}`,
     },
@@ -15,7 +17,7 @@ export async function getAccount(): Promise<Account[]> {
 
 export async function removeAccount(id: string): Promise<void> {
   const token = JSON.parse(localStorage.getItem("token")!);
-  const response = await fetch(`http://localhost:3333/account/${id}`, {
+  const response = await fetch(`${apiUrl}/account/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token!.access_token}`,
@@ -36,7 +38,7 @@ export async function createAccount({
   initialBalance?: number;
 }) {
   const token = JSON.parse(localStorage.getItem("token")!);
-  const response = await fetch("http://localhost:3333/account", {
+  const response = await fetch(`${apiUrl}/account`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -61,7 +63,7 @@ export async function updateAccount({
   accountId: string;
 }) {
   const token = JSON.parse(localStorage.getItem("token")!);
-  const response = await fetch(`http://localhost:3333/account/${accountId}`, {
+  const response = await fetch(`${apiUrl}/account/${accountId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

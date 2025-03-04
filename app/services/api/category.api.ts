@@ -1,8 +1,10 @@
 import { Category } from "@/app/models/Category";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export async function getCategories(): Promise<Category[]> {
   const token = JSON.parse(localStorage.getItem("token")!);
-  const response = await fetch("http://localhost:3333/category", {
+  const response = await fetch(`${apiUrl}/category`, {
     headers: {
       Authorization: `Bearer ${token!.access_token}`,
     },
@@ -15,7 +17,7 @@ export async function getCategories(): Promise<Category[]> {
 
 export async function createCategory(categoryName: string) {
   const token = JSON.parse(localStorage.getItem("token")!);
-  const response = await fetch("http://localhost:3333/category", {
+  const response = await fetch(`${apiUrl}/category`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,7 +32,7 @@ export async function createCategory(categoryName: string) {
 
 export async function removeCategory(id: string): Promise<void> {
   const token = JSON.parse(localStorage.getItem("token")!);
-  const response = await fetch(`http://localhost:3333/category/${id}`, {
+  const response = await fetch(`${apiUrl}/category/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token!.access_token}`,
@@ -49,7 +51,7 @@ export async function updateCategory({
   categoryId: string;
 }) {
   const token = JSON.parse(localStorage.getItem("token")!);
-  const response = await fetch(`http://localhost:3333/category/${categoryId}`, {
+  const response = await fetch(`${apiUrl}/category/${categoryId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

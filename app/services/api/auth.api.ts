@@ -1,5 +1,7 @@
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export async function login(email: string, password: string) {
-  const response = await fetch("http://localhost:3333/auth/login", {
+  const response = await fetch(`${apiUrl}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -19,7 +21,7 @@ export async function register(
   password: string,
   confirmPassword: string,
 ) {
-  const response = await fetch("http://localhost:3333/auth/register", {
+  const response = await fetch(`${apiUrl}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
