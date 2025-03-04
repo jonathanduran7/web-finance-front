@@ -6,9 +6,7 @@ import {
   deleteTransaction,
   getTransactionsPaginated,
 } from "@/app/services/api/transactions.api";
-import Table, { IColumn } from "@/components/ui/table/table";
-import dayjs from "dayjs";
-import { formatCurrency } from "@/lib/format";
+import Table from "@/components/ui/table/table";
 import { useState } from "react";
 import ModalFactory from "./modal-transactions-factory";
 import { Edit, MessageSquarePlus, Trash } from "lucide-react";
@@ -18,22 +16,7 @@ import { getAccount } from "@/app/services/api/account.api";
 import { Category } from "@/app/models/Category";
 import { getCategories } from "@/app/services/api/category.api";
 import { useSnackbar } from "@/app/context/snackbar.context";
-
-export const columns: IColumn[] = [
-  {
-    name: "createdAt",
-    label: "Fecha",
-    value: (row: Transaction) => dayjs(row.updatedAt).format("DD/MM"),
-  },
-  { name: "title", label: "Titulo" },
-  { name: "category.name", label: "Categoria" },
-  { name: "account.name", label: "Cuenta" },
-  {
-    name: "amount",
-    label: "Importe",
-    value: (row: Transaction) => formatCurrency(row.amount),
-  },
-];
+import { columns } from "./columns";
 
 export default function Page() {
   const queryClient = useQueryClient();

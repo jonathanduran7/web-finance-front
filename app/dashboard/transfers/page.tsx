@@ -4,10 +4,8 @@ import {
   deleteTransfer,
   getTransferPaginated,
 } from "@/app/services/api/transfer.api";
-import Table, { IColumn } from "@/components/ui/table/table";
-import { formatCurrency } from "@/lib/format";
+import Table from "@/components/ui/table/table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import dayjs from "dayjs";
 import { Edit, MessageSquarePlus, Trash } from "lucide-react";
 import { useState } from "react";
 import ModalFactory from "./modal-transfer-factory";
@@ -15,27 +13,7 @@ import FooterTable from "./footer-table";
 import { Account } from "@/app/models/Accounts";
 import { getAccount } from "@/app/services/api/account.api";
 import { useSnackbar } from "@/app/context/snackbar.context";
-
-export const columns: IColumn[] = [
-  {
-    name: "updatedAt",
-    label: "Fecha",
-    value: (row: Transfer) => dayjs(row.updatedAt).format("DD/MM"),
-  },
-  {
-    name: "sourceAccount.name",
-    label: "Cuenta de origen",
-  },
-  {
-    name: "destinationAccount.name",
-    label: "Cuenta de destino",
-  },
-  {
-    name: "amount",
-    label: "Importe",
-    value: (row: Transfer) => formatCurrency(row.amount),
-  },
-];
+import { columns } from "./columns";
 
 export default function Page() {
   const { openSnackbar } = useSnackbar();

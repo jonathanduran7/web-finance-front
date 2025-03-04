@@ -19,7 +19,7 @@ const Modal: FC<ModalProps> & ModalSubComponents = ({
   children,
 }: ModalProps) => {
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
 

@@ -9,8 +9,8 @@ import {
 import Table from "@/components/ui/table/table";
 import { formatCurrency } from "@/lib/format";
 import { useQuery } from "@tanstack/react-query";
-import { columns as columnsTransaction } from "../transactions/page";
-import { columns as columnsTransfer } from "../transfers/page";
+import { columns as columnsTransaction } from "../transactions/columns";
+import { columns as columnsTransfer } from "../transfers/columns";
 import { getTransferPaginated } from "@/app/services/api/transfer.api";
 import { Transfer } from "@/app/models/Transfer";
 import { useRouter } from "next/navigation";
