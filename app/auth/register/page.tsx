@@ -70,7 +70,7 @@ export default function Page() {
           Registrarme
         </button>
 
-        <div className="flex flex-col items-center justify-center w-[400px] bg-gray-100 p-4 rounded-lg text-primary">
+        <div className="flex flex-col items-center justify-center bg-gray-100 p-4 rounded-lg text-primary">
           <p className="cursor-pointer" onClick={() => push("/auth/login")}>
             Ya tengo una cuenta
           </p>
