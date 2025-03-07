@@ -25,7 +25,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-[400px] bg-gray-100 p-4 rounded-lg">
+    <div className="flex flex-col items-center justify-center w-full h-full xs:w-[400px] xs:h-auto bg-gray-100 p-4 rounded-lg">
       <h1 className="text-2xl font-bold">Apertura de cuenta</h1>
       <form
         onSubmit={handleSubmit((data) => onSubmit(data))}
