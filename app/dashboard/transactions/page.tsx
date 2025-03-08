@@ -135,7 +135,7 @@ export default function Page() {
       </p>
       <div className="w-full md:w-[60%]">
         <div className="mt-5">
-          <div className="w-full flex flex-col md:flex-row md:justify-end gap-5 mb-10 md:mb-0">
+          <div className="w-full flex flex-col md:flex-row md:justify-end gap-5 mb-10 md:mb-5">
             <div>
               <p className="mb-2 font-bold">Cuenta</p>
               <select
