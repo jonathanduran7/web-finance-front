@@ -126,16 +126,16 @@ export default function Page() {
   };
 
   return (
-    <div>
+    <div className="overflow-hidden xs:overflow-auto">
       <p className="mb-4 text-3xl">Movimientos</p>
-      <p className="mb-4 text-gray-500 text-sm w-[60%]">
+      <p className="mb-4 text-gray-500 text-sm w-full md:w-[60%]">
         Aqui podras visualizar todos los movimientos que has realizado en tus
         cuentas y categorias. <br /> Además, podras filtrar por cuenta,
         categoria y rango de fechas.
       </p>
-      <div className="w-[60%]">
+      <div className="w-full md:w-[60%]">
         <div className="mt-5">
-          <div className="w-full flex justify-end mb-5  flex-wrap gap-5">
+          <div className="w-full flex flex-col md:flex-row md:justify-end gap-5 mb-10 md:mb-0">
             <div>
               <p className="mb-2">Cuenta</p>
               <select
@@ -153,7 +153,7 @@ export default function Page() {
               </select>
             </div>
 
-            <div className="ml-5">
+            <div className="ml-0 md:ml-5">
               <p className="mb-2">Categoria</p>
               <select
                 name="categoryId"
@@ -170,7 +170,7 @@ export default function Page() {
               </select>
             </div>
 
-            <div className="ml-5">
+            <div className="ml-0 md:ml-5">
               <p className="mb-2">Fecha Inicio</p>
               <input
                 type="date"
@@ -181,7 +181,7 @@ export default function Page() {
               />
             </div>
 
-            <div className="ml-5">
+            <div className="ml-0 md:ml-5">
               <p className="mb-2">Fecha Fin</p>
               <input
                 type="date"
