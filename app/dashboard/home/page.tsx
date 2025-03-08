@@ -14,6 +14,7 @@ import { columns as columnsTransfer } from "../transfers/columns";
 import { getTransferPaginated } from "@/app/services/api/transfer.api";
 import { Transfer } from "@/app/models/Transfer";
 import { useRouter } from "next/navigation";
+import dayjs from "dayjs";
 
 export default function Page() {
   const { push } = useRouter();
@@ -69,6 +70,26 @@ export default function Page() {
               <div className="hidden xs:block">
                 <Table columns={columnsTransaction} data={transactions?.data} />
               </div>
+
+              <div className="block xs:hidden">
+                {transactions.data.map((transaction) => (
+                  <div
+                    key={transaction.id}
+                    className="flex justify-between items-center mt-2 mb-4 bg-gray-100 p-2 rounded-md"
+                  >
+                    <div className="flex flex-col">
+                      <div className="flex gap-2">
+                        <p>{dayjs(transaction.updatedAt).format("DD/MM")}</p>
+                        <p>{transaction.title}</p>
+                      </div>
+                      <div>
+                        <p>{transaction.account.name}</p>
+                      </div>
+                    </div>
+                    <p>{formatCurrency(transaction.amount)}</p>
+                  </div>
+                ))}
+              </div>
               <div>
                 <p
                   className="text-primary text-center mt-4 cursor-pointer"
@@ -86,8 +107,27 @@ export default function Page() {
             </h2>
             {transfers && transfers.data.length ? (
               <div>
-                <div className="hidden xs:block">
+                <div className="hidden md:block">
                   <Table columns={columnsTransfer} data={transfers.data} />
+                </div>
+                <div className="block md:hidden">
+                  {transfers.data.map((transfer) => (
+                    <div
+                      key={transfer.id}
+                      className="flex justify-between items-center mt-2 mb-4 bg-gray-100 p-2 rounded-md"
+                    >
+                      <div className="flex flex-col">
+                        <div className="flex flex-col">
+                          <p>{dayjs(transfer.updatedAt).format("DD/MM")}</p>
+                          <div>
+                            <p>{transfer.sourceAccount.name}</p>
+                            <p>{transfer.destinationAccount.name}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <p>{formatCurrency(transfer.amount)}</p>
+                    </div>
+                  ))}
                 </div>
                 <div>
                   <p
