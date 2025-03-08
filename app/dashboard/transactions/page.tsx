@@ -137,7 +137,7 @@ export default function Page() {
         <div className="mt-5">
           <div className="w-full flex flex-col md:flex-row md:justify-end gap-5 mb-10 md:mb-0">
             <div>
-              <p className="mb-2">Cuenta</p>
+              <p className="mb-2 font-bold">Cuenta</p>
               <select
                 name="accountId"
                 className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
@@ -154,7 +154,7 @@ export default function Page() {
             </div>
 
             <div className="ml-0 md:ml-5">
-              <p className="mb-2">Categoria</p>
+              <p className="mb-2 font-bold">Categoria</p>
               <select
                 name="categoryId"
                 className="w-full border border-gray-300 rounded px-4 py-2 outline-none bg-white"
@@ -171,7 +171,7 @@ export default function Page() {
             </div>
 
             <div className="ml-0 md:ml-5">
-              <p className="mb-2">Fecha Inicio</p>
+              <p className="mb-2 font-bold">Fecha Inicio</p>
               <input
                 type="date"
                 name="startDate"
@@ -182,7 +182,7 @@ export default function Page() {
             </div>
 
             <div className="ml-0 md:ml-5">
-              <p className="mb-2">Fecha Fin</p>
+              <p className="mb-2 font-bold">Fecha Fin</p>
               <input
                 type="date"
                 name="endDate"
