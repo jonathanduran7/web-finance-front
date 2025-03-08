@@ -39,9 +39,9 @@ export default function Page() {
   if (!data) return <div>No data</div>;
 
   return (
-    <div className="w-[85%]">
+    <div className="overflow-hidden xs:overflow-auto">
       <h1 className="mb-4 text-3xl">Home</h1>
-      <div className="flex gap-20 w-full justify-between">
+      <div className="flex gap-5 w-full justify-between flex-col xs:flex-row xs:gap-10">
         <div className="flex flex-col justify-between bg-gray-100 p-4 rounded-md">
           <p className="text-sm italic text-gray-400">Ingresos</p>
           <p className="mt-2 font-bold text-4xl">
@@ -61,12 +61,14 @@ export default function Page() {
           </p>
         </div>
       </div>
-      <div className="flex mt-5">
-        <div className="w-[70%] p-4">
+      <div className="flex flex-col md:flex-row mt-5">
+        <div className="w-full md:w-[70%] p-4 order-2 md:order-1">
           {transactions && (
             <div>
               <h2 className="text-xl font-bold mb-2">Últimos movimientos</h2>
-              <Table columns={columnsTransaction} data={transactions?.data} />
+              <div className="hidden xs:block">
+                <Table columns={columnsTransaction} data={transactions?.data} />
+              </div>
               <div>
                 <p
                   className="text-primary text-center mt-4 cursor-pointer"
@@ -84,7 +86,9 @@ export default function Page() {
             </h2>
             {transfers && transfers.data.length ? (
               <div>
-                <Table columns={columnsTransfer} data={transfers.data} />
+                <div className="hidden xs:block">
+                  <Table columns={columnsTransfer} data={transfers.data} />
+                </div>
                 <div>
                   <p
                     onClick={() => push("/dashboard/transfers")}
@@ -99,7 +103,7 @@ export default function Page() {
             )}
           </div>
         </div>
-        <div className="w-[30%] flex flex-col gap-4">
+        <div className="w-full flex md:w-[30%] flex-col gap-4 order-1 md:order-2">
           {data.categories.length ? (
             <div className="bg-gray-100 p-4 rounded-md mt-4 w-full">
               <h2 className="text-xl font-bold mb-2">Categorías</h2>
