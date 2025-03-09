@@ -38,7 +38,10 @@ export default function Table<T>({
         <thead>
           <tr>
             {columns?.map((column) => (
-              <th key={column.name} className="p-2 mr-6 text-start">
+              <th
+                key={column.name}
+                className="p-2 mr-6 text-start whitespace-nowrap"
+              >
                 {column.label}
               </th>
             ))}
@@ -52,7 +55,7 @@ export default function Table<T>({
               className="mb-4 hover:bg-gray-100 hover:cursor-pointer"
             >
               {columns.map((column) => (
-                <td key={column.name} className="p-2 mr-5">
+                <td key={column.name} className="p-2 mr-5 whitespace-nowrap">
                   {column.value
                     ? column.value(row)
                     : getNestedValue(row, column.name)}
