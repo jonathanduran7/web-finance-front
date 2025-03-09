@@ -103,8 +103,8 @@ export default function Page() {
   };
 
   return (
-    <div>
-      <div className="w-[60%]">
+    <div className="overflow-hidden xs:overflow-auto">
+      <div className="w-full md:w-[60%]">
         <p className="mb-4 text-3xl">Transferencias</p>
         <p className="mb-4 text-gray-500 text-sm">
           Aquí puedes ver todas las transferencias realizadas en tu cuenta.{" "}
@@ -112,7 +112,7 @@ export default function Page() {
           destino.
         </p>
       </div>
-      <div className="flex gap-5 justify-end mb-5 w-[60%]">
+      <div className="flex flex-col md:flex-row gap-5 justify-end mb-5 w-full md:w-[60%]">
         <div>
           <p className="mb-2">Cuenta Origen</p>
           <select
@@ -169,7 +169,7 @@ export default function Page() {
           />
         </div>
       </div>
-      <div className="flex justify-end mb-5 w-[60%]">
+      <div className="flex justify-end mb-5 w-full md:w-[60%]">
         <input
           type="text"
           placeholder="Buscar por titulo o descripcion"
@@ -186,7 +186,7 @@ export default function Page() {
           Crear
         </button>
       </div>
-      <div className="w-[60%]">
+      <div className="w-full md:w-[60%]">
         {!data?.data.length ? (
           <div className="w-full flex justify-center mt-4 text-center text-sm text-gray-500 italic">
             No hay registros disponibles. <br />
