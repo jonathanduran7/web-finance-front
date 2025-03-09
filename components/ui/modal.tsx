@@ -34,7 +34,9 @@ const Modal: FC<ModalProps> & ModalSubComponents = ({
   return (
     <div>
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-6 rounded-lg shadow-lg w-96">{children}</div>
+        <div className="bg-white p-6 rounded-lg shadow-lg w-[95%] md:w-96">
+          {children}
+        </div>
       </div>
     </div>
   );
