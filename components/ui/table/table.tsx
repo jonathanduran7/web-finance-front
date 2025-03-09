@@ -33,7 +33,7 @@ export default function Table<T>({
   };
 
   return (
-    <div className="w-full">
+    <div className="overflow-x-auto">
       <table className="w-full">
         <thead>
           <tr>
@@ -73,8 +73,14 @@ export default function Table<T>({
             </tr>
           ))}
         </tbody>
+        {footer && (
+          <tfoot>
+            <tr>
+              <td colSpan={columns.length + 1}>{footer}</td>
+            </tr>
+          </tfoot>
+        )}
       </table>
-      {footer && <div>{footer}</div>}
     </div>
   );
 }
