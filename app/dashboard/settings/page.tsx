@@ -8,13 +8,13 @@ export default function Page() {
   return (
     <div className="h-full">
       <h1 className="mb-4 text-3xl">Configuraciones</h1>
-      <div className="mb-4 text-gray-500 text-sm w-[60%]">
+      <div className="mb-4 text-gray-500 text-sm w-full md:w-[60%]">
         <p>
           Configura tus preferencias de la aplicacion. Puedes modificar tus
           cuentas, categorias y monedas.
         </p>
       </div>
-      <div className="w-[60%] mt-4">
+      <div className="w-full md:w-[60%] mt-4">
         <Accordion title="Cuentas">
           <AccountAccordion />
         </Accordion>
